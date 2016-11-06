@@ -8,6 +8,8 @@ namespace App\Foundation;
 
 use App\Controllers\HomeController;
 use Pimple\Container;
+use Slim\App;
+use Illuminate\Database\Capsule\Manager;
 
 class Application extends Container
 {
@@ -22,9 +24,10 @@ class Application extends Container
 
     public function __construct($config = null)
     {
-        $this->app = new \Slim\App(
+        $this->app = new App(
             [
                 'settings' => [
+                    'determineRouteBeforeAppMiddleware' => false,
                     'displayErrorDetails' => true,
                     'db' => [
                         'driver' => 'mysql',
@@ -40,6 +43,16 @@ class Application extends Container
             ]
         );
         $container = $this->app->getContainer();
+
+        // Service factory for the ORM
+        $capsule = new Manager();
+        $capsule->addConnection($container['settings']['db']);
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+
+        $container['db'] = function ($container) use ($capsule) {
+            return $capsule;
+        };
 
         /*$container['HomeController'] = function ($container) {
             return new HomeController($container);

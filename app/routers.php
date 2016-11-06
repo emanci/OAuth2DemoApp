@@ -6,3 +6,4 @@
  */
 
 $app->get('/', 'App\Controllers\HomeController:index')->setName('home');
+$app->get('/user', 'App\Controllers\HomeController:user')->setName('home.user');
