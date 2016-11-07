@@ -7,6 +7,8 @@
 namespace App\Foundation;
 
 use App\Controllers\HomeController;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\RoleMiddleware;
 use Pimple\Container;
 use Slim\App;
 use Illuminate\Database\Capsule\Manager;
@@ -14,14 +16,22 @@ use Illuminate\Database\Capsule\Manager;
 class Application extends Container
 {
     /**
+     * @var null|App
+     */
+    protected $app = null;
+
+    /**
      * Service Providers.
      *
      * @var array
      */
     protected $providers = [];
 
-    protected $app = null;
-
+    /**
+     * Application constructor.
+     *
+     * @param null $config
+     */
     public function __construct($config = null)
     {
         $this->app = new App(
@@ -54,11 +64,17 @@ class Application extends Container
             return $capsule;
         };
 
+        $this->app->add(new AuthMiddleware($container));
+        $this->app->add(new RoleMiddleware($container));
+
         /*$container['HomeController'] = function ($container) {
             return new HomeController($container);
         };*/
     }
 
+    /**
+     * Run application.
+     */
     public function run()
     {
         $app = $this->app;

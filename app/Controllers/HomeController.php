@@ -22,8 +22,9 @@ class HomeController extends BaseController
         //$user = User::find(1);
         $user = User::where('username', 'emanci')->first();
 
-        echo 'id:'.$user->id;
-        echo "<pre>";
-        print_r($user);
+        //echo 'id:'.$user->id;
+        //echo "<pre>";
+        //print_r($user);
+        echo "<br/>Hello World<br/>";
     }
 }
