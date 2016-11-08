@@ -6,14 +6,13 @@
  */
 namespace App\Foundation;
 
-use App\Controllers\HomeController;
-use App\Middleware\AuthMiddleware;
-use App\Middleware\RoleMiddleware;
-use Pimple\Container;
 use Slim\App;
 use Slim\Views\Twig;
-use Slim\Views\TwigExtension;
+use Pimple\Container;
 use Slim\Flash\Messages;
+use Slim\Views\TwigExtension;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\RoleMiddleware;
 use Illuminate\Database\Capsule\Manager;
 
 class Application extends Container
@@ -37,6 +36,7 @@ class Application extends Container
      */
     public function __construct($config = null)
     {
+        session_start();
         $this->app = new App(
             [
                 'settings' => [
@@ -55,6 +55,7 @@ class Application extends Container
                 ],
             ]
         );
+
         $container = $this->app->getContainer();
 
         // Service factory for the ORM
@@ -74,7 +75,7 @@ class Application extends Container
         $container['view'] = function ($container) {
             $view = new Twig(
                 APP_PATH.'/resources/views/', [
-                    'cache' => fasle,
+                    'cache' => false,
                     'cache' => APP_PATH.'/storage/views/cache/',
                 ]
             );
@@ -84,17 +85,16 @@ class Application extends Container
                     $container->request->getUri()
                 )
             );
-            $view->getEnvironment()->addGlobal('flash', $container->flash);
+
+            if ($container->has('flash')) {
+                $view->getEnvironment()->addGlobal('flash', $container->flash);
+            }
 
             return $view;
         };
 
         $this->app->add(new AuthMiddleware($container));
         $this->app->add(new RoleMiddleware($container));
-
-        /*$container['HomeController'] = function ($container) {
-            return new HomeController($container);
-        };*/
     }
 
     /**
