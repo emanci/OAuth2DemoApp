@@ -40,6 +40,9 @@ class Application extends Container
         $this->app = new App(
             [
                 'settings' => [
+                    'httpVersion' => '1.1',
+                    'responseChunkSize' => 4096,
+                    'outputBuffering' => 'append',
                     'determineRouteBeforeAppMiddleware' => false,
                     'displayErrorDetails' => true,
                     'db' => [
