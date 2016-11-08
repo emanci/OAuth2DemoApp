@@ -7,25 +7,36 @@
 namespace App\Controllers;
 
 use Interop\Container\ContainerInterface;
+use Slim\Http\Response;
 
 abstract class BaseController
 {
     /**
      * @var ContainerInterface
      */
-    protected $ci;
+    protected $app;
 
-    //Constructor
-    public function __construct(ContainerInterface $ci)
+    /**
+     * BaseController constructor.
+     *
+     * @param ContainerInterface $app
+     */
+    public function __construct(ContainerInterface $app)
     {
-        $this->ci = $ci;
+        $this->app = $app;
     }
 
     /**
-     * @return ContainerInterface
+     * Render the template.
+     *
+     * @param $response
+     * @param $template
+     * @param $data
+     *
+     * @return mixed
      */
-    public function getApp()
+    public function render(Response $response, $template, array $data = [])
     {
-        return $this->ci;
+        return $this->app->view->render($response, $template, $data);
     }
 }

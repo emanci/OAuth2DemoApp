@@ -11,6 +11,9 @@ use App\Middleware\AuthMiddleware;
 use App\Middleware\RoleMiddleware;
 use Pimple\Container;
 use Slim\App;
+use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
+use Slim\Flash\Messages;
 use Illuminate\Database\Capsule\Manager;
 
 class Application extends Container
@@ -62,6 +65,28 @@ class Application extends Container
 
         $container['db'] = function ($container) use ($capsule) {
             return $capsule;
+        };
+
+        $container['flash'] = function ($container) {
+            return new Messages();
+        };
+
+        $container['view'] = function ($container) {
+            $view = new Twig(
+                APP_PATH.'/resources/views/', [
+                    'cache' => fasle,
+                    'cache' => APP_PATH.'/storage/views/cache/',
+                ]
+            );
+            $view->addExtension(
+                new TwigExtension(
+                    $container->router,
+                    $container->request->getUri()
+                )
+            );
+            $view->getEnvironment()->addGlobal('flash', $container->flash);
+
+            return $view;
         };
 
         $this->app->add(new AuthMiddleware($container));

@@ -25,6 +25,7 @@ class HomeController extends BaseController
         //echo 'id:'.$user->id;
         //echo "<pre>";
         //print_r($user);
-        echo "<br/>Hello World<br/>";
+        //echo "<br/>Hello World<br/>";
+        $this->render($response, '/user/profile.twig', ['nickname' => 'emanci']);
     }
 }

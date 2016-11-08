@@ -7,3 +7,15 @@
 
 $app->get('/', 'App\Controllers\HomeController:index')->setName('home');
 $app->get('/user', 'App\Controllers\HomeController:user')->setName('home.user');
+$app->get(
+    '/test/{name}',
+    function ($request, $response, $args) {
+        return $this->view->render(
+            $response,
+            '/user/profile.twig',
+            [
+                'nickname' => $args['name'],
+            ]
+        );
+    }
+);
