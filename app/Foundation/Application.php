@@ -76,10 +76,10 @@ class Application extends Container
         };
 
         $container['view'] = function ($container) {
+            $cache = false;
             $view = new Twig(
                 APP_PATH.'/resources/views/', [
-                    'cache' => false,
-                    'cache' => APP_PATH.'/storage/views/cache/',
+                    'cache' => $cache,
                 ]
             );
             $view->addExtension(
@@ -88,7 +88,6 @@ class Application extends Container
                     $container->request->getUri()
                 )
             );
-
             if ($container->has('flash')) {
                 $view->getEnvironment()->addGlobal('flash', $container->flash);
             }
