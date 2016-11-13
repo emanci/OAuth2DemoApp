@@ -27,6 +27,16 @@ abstract class BaseController
     }
 
     /**
+     * Get app container.
+     *
+     * @return ContainerInterface
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    /**
      * Render the template.
      *
      * @param $response

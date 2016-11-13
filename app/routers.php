@@ -19,3 +19,4 @@ $app->get(
         );
     }
 );
+$app->get('/some', 'App\Controllers\HomeController:some')->setName('home.some');

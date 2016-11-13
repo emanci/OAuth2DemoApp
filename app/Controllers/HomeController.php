@@ -9,6 +9,7 @@ namespace App\Controllers;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use App\Facades\SomeServiceFacade;
 
 class HomeController extends BaseController
 {
@@ -27,5 +28,14 @@ class HomeController extends BaseController
         //print_r($user);
         //echo "<br/>Hello World<br/>";
         $this->render($response, '/user/profile.twig', ['nickname' => 'emanci']);
+    }
+
+    public function some(Request $request, Response $response, $args)
+    {
+        echo SomeServiceFacade::aliasesTest();
+        echo FuckName::aliasesTest();
+        //var_dump($this->getApp()->some);
+        //echo "<pre>";
+        //print_r(get_class_methods($this->app->get('some')));
     }
 }

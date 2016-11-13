@@ -7,6 +7,7 @@
 namespace App\Foundation;
 
 use Slim\App;
+use App\Models\User;
 use Slim\Views\Twig;
 use Pimple\Container;
 use Slim\Flash\Messages;
@@ -40,6 +41,7 @@ class Application extends Container
         session_start();
         $this->initContainer();
         $this->setFacade();
+        $this->registerAlias();
     }
 
     /**
@@ -105,6 +107,10 @@ class Application extends Container
             return $view;
         };
 
+        $container['some'] = function ($container) {
+            return new User();
+        };
+
         $this->app->add(new AuthMiddleware($container));
         $this->app->add(new RoleMiddleware($container));
     }
@@ -114,7 +120,20 @@ class Application extends Container
      */
     protected function setFacade()
     {
-        Facade::setFacadeApplication($this->app);
+        Facade::setFacadeApplication($this->app->getContainer());
+    }
+
+    /**
+     * register Facade Alias.
+     *
+     * @throws Exception
+     */
+    protected function registerAlias()
+    {
+        $aliases = array(
+            'FuckName' => 'App\Facades\SomeServiceFacade',
+        );
+        AliasLoader::getInstance($aliases)->register();
     }
 
     /**
