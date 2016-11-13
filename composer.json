@@ -21,6 +21,7 @@
     "slim/csrf": "^0.6.0",
     "slim/flash": "^0.1.0",
     "illuminate/database": "^5.2",
+    "illuminate/support": "*",
     "respect/validation": "^1.0",
     "monolog/monolog": "^1.17"
   },

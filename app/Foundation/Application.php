@@ -13,6 +13,7 @@ use Slim\Flash\Messages;
 use Slim\Views\TwigExtension;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\RoleMiddleware;
+use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Capsule\Manager;
 
 class Application extends Container
@@ -37,6 +38,15 @@ class Application extends Container
     public function __construct($config = null)
     {
         session_start();
+        $this->initContainer();
+        $this->setFacade();
+    }
+
+    /**
+     * Initial application container.
+     */
+    protected function initContainer()
+    {
         $this->app = new App(
             [
                 'settings' => [
@@ -97,6 +107,14 @@ class Application extends Container
 
         $this->app->add(new AuthMiddleware($container));
         $this->app->add(new RoleMiddleware($container));
+    }
+
+    /**
+     * Set Container to facade.
+     */
+    protected function setFacade()
+    {
+        Facade::setFacadeApplication($this->app);
     }
 
     /**
