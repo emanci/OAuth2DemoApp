@@ -109,7 +109,7 @@ class Log
      */
     protected static function createLogger($level)
     {
-        $log = new Logger('XiaofeiLog');
+        $log = new Logger('OAuth2DemoAppLog');
         if (config('debug')) {
             $log->pushHandler(new NullHandler());
         } else {
