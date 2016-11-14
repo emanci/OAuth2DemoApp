@@ -1,0 +1,7 @@
+RewriteEngine On
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond $1 !^(index\.php|images|assets|application|themes|statics|logs|upfile|uploads|attachmnts|sitemap|jwplayer\.flash\.swf|crossdomain\.xml)
+    RewriteRule .* index.php
+</IfModule>
