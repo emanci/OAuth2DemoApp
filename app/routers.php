@@ -20,3 +20,4 @@ $app->get(
     }
 );
 $app->get('/some', 'App\Controllers\HomeController:some')->setName('home.some');
+$app->get('/log', 'App\Controllers\HomeController:log')->setName('home.log');

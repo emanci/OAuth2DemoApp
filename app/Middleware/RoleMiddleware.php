@@ -19,9 +19,10 @@ class RoleMiddleware extends Middleware
      */
     public function __invoke($request, $response, $next)
     {
-        $response->getBody()->write('Role BEFORE.');
+        //$response->getBody()->write('Role BEFORE.');
         $response = $next($request, $response);
-        $response->getBody()->write('Role AFTER.');
+
+        //$response->getBody()->write('Role AFTER.');
 
         return $response;
     }

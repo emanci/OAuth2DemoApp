@@ -4,22 +4,24 @@
  * Author: phil <zhengchaopu@gmail.com>
  * Date: 2016/11/14.
  */
-namespace Wap\Utils;
+namespace App\Support;
 
+use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Monolog\Handler\StreamHandler;
 
 /**
  * Class Log
- * Log::emergency($error); // 紧急状况，比如系统挂掉
- * Log::alert($error);     // 需要立即采取行动的问题，比如整站宕掉，数据库异常等，这种状况应该通过短信提醒
- * Log::critical($error);  // 严重问题，比如：应用组件无效，意料之外的异常
- * Log::error($error);     // 运行时错误，不需要立即处理但需要被记录和监控
- * Log::warning($error);   // 警告但不是错误，比如使用了被废弃的API
- * Log::notice($error);    // 普通但值得注意的事件
- * Log::info($error);      // 感兴趣的事件，比如登录、退出
- * Log::debug($error);     // 详细的调试信息
+ *
+ * @method emergency(string $message, array $context, $filename); // 紧急状况，比如系统挂掉
+ * @method alert(string $message, array $context, $filename);     // 需要立即采取行动的问题，比如整站宕掉，数据库异常等，这种状况应该通过短信提醒
+ * @method critical(string $message, array $context, $filename);  // 严重问题，比如：应用组件无效，意料之外的异常
+ * @method error(string $message, array $context, $filename);     // 运行时错误，不需要立即处理但需要被记录和监控
+ * @method warning(string $message, array $context, $filename);   // 警告但不是错误，比如使用了被废弃的API
+ * @method notice(string $message, array $context, $filename);    // 普通但值得注意的事件
+ * @method info(string $message, array $context, $filename);      // 感兴趣的事件，比如登录、退出
+ * @method debug(string $message, array $context, $filename);     // 详细的调试信息
  */
 class Log
 {
@@ -31,54 +33,35 @@ class Log
     protected static $loggers = [];
 
     /**
-     * Logger file.
-     *
-     * @var
-     */
-    protected static $logFile;
-
-    /**
-     * Logger level.
-     *
-     * @var
-     */
-    protected static $logLevel;
-
-    /**
-     * Logger file suffix.
-     *
-     * @var string
-     */
-    protected static $logSuffix = 'log';
-
-    /**
      * Logger levels.
      *
      * @var array
      */
     protected static $levels = [
-        'debug' => 100,
-        'info' => 200,
-        'notice' => 250,
-        'warning' => 300,
-        'error' => 400,
-        'critical' => 500,
-        'alert' => 550,
-        'emergency' => 600,
+        'debug' => Logger::DEBUG,
+        'info' => Logger::INFO,
+        'notice' => Logger::NOTICE,
+        'warning' => Logger::WARNING,
+        'error' => Logger::ERROR,
+        'critical' => Logger::CRITICAL,
+        'alert' => Logger::ALERT,
+        'emergency' => Logger::EMERGENCY,
     ];
 
     /**
      * Return the logger instance.
      *
-     * @return mixed
+     * @param string $level
+     *
+     * @return \Psr\Log\LoggerInterface
      */
-    public static function logger($logger)
+    public static function getLogger($level)
     {
-        if (!isset(self::$loggers[$logger])) {
-            self::$loggers[$logger] = self::createLogger($logger);
+        if (!isset(self::$loggers[$level])) {
+            self::$loggers[$level] = self::createLogger($level);
         }
 
-        return self::$loggers[$logger];
+        return self::$loggers[$level];
     }
 
     /**
@@ -92,73 +75,62 @@ class Log
     }
 
     /**
-     * Set Logger file suffix.
-     *
-     * @param $logSuffix
-     */
-    public function setLogSuffix($logSuffix)
-    {
-        self::$logSuffix = $logSuffix;
-    }
-
-    /**
      * Forward call.
      *
-     * @param $method
-     * @param $args
+     * @param string $method
+     * @param array  $args
      *
      * @return mixed
      */
     public static function __callStatic($method, $args)
     {
-        self::setLoggerConfiguration($method, $args);
-
-        //echo self::getLogger();die();
-        return forward_static_call_array([self::logger($method), $method], $args);
+        return forward_static_call_array([self::getLogger($method), $method], $args);
     }
 
     /**
      * Forward call.
      *
-     * @param $method
-     * @param $args
+     * @param string $method
+     * @param array  $args
      *
      * @return mixed
      */
     public function __call($method, $args)
     {
-        self::setLoggerConfiguration($method, $args);
-
         return call_user_func_array([self::logger($method), $method], $args);
-    }
-
-    /**
-     * Set logger configuration.
-     *
-     * @param $method
-     * @param $args
-     */
-    protected static function setLoggerConfiguration($method, $args)
-    {
-        self::$logLevel = $method;
-        self::$logFile = isset($args[2]) ? $args[2] : 'xiaofei';
     }
 
     /**
      * Make a log instance.
      *
+     * @param string $level
+     *
      * @return Logger
      */
-    protected static function createLogger($logger)
+    protected static function createLogger($level)
     {
         $log = new Logger('XiaofeiLog');
-        $logFile = APP_PATH.'/log/'.self::$logFile.'.'.self::$logSuffix;
-
-        $log->pushProcessor(new UidProcessor());
-        /*echo self::$levels[self::$logLevel];
-        die();*/
-        $log->pushHandler(new StreamHandler($logFile, self::$levels[$logger]));
+        if (config('debug')) {
+            $log->pushHandler(new NullHandler());
+        } else {
+            $log->pushProcessor(new UidProcessor());
+            $log->pushHandler(new StreamHandler(self::getLogFile(), self::$levels[$level]));
+        }
 
         return $log;
+    }
+
+    /**
+     * Get log file name.
+     *
+     * @return \config|mixed|string|void
+     */
+    protected static function getLogFile()
+    {
+        if ($logFile = config('log.file')) {
+            return $logFile;
+        }
+
+        return APP_PATH.'/storage/logs/'.date('Y-m-d', time()).'.log';
     }
 }

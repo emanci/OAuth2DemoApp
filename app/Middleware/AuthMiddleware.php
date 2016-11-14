@@ -19,9 +19,10 @@ class AuthMiddleware extends Middleware
      */
     public function __invoke($request, $response, $next)
     {
-        $response->getBody()->write('Auth BEFORE.');
+        //$response->getBody()->write('Auth BEFORE.');
         $response = $next($request, $response);
-        $response->getBody()->write('Auth AFTER.');
+
+        //$response->getBody()->write('Auth AFTER.');
 
         return $response;
     }

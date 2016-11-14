@@ -6,4 +6,8 @@
  */
 return [
     'debug' => false,
+    'log' => [
+        'type' => 'date',
+        'file' => '',
+    ],
 ];

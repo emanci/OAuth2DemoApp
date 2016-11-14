@@ -6,6 +6,7 @@
  */
 namespace App\Foundation;
 
+use App\Facades\SomeServiceFacade;
 use Slim\App;
 use App\Models\User;
 use Slim\Views\Twig;
@@ -120,6 +121,7 @@ class Application extends Container
      */
     protected function setFacade()
     {
+        Facade::clearResolvedInstances();
         Facade::setFacadeApplication($this->app->getContainer());
     }
 
@@ -131,7 +133,7 @@ class Application extends Container
     protected function registerAlias()
     {
         $aliases = array(
-            'FuckName' => 'App\Facades\SomeServiceFacade',
+            'App\Controllers\FuckName' => SomeServiceFacade::class,
         );
         AliasLoader::getInstance($aliases)->register();
     }
