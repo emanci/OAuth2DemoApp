@@ -32,3 +32,13 @@ if (!function_exists('config')) {
         return $default;
     }
 }
+
+if (!function_exists('controller')) {
+    /**
+     * @param $controllerName
+     */
+    function controller($controllerName)
+    {
+
+    }
+}

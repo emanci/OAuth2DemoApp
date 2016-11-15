@@ -27,6 +27,22 @@ abstract class BaseController
     }
 
     /**
+     * @param $actionName
+     *
+     * @return \Closure
+     */
+    public function __invoke($actionName)
+    {
+        $app = $this->app;
+        $controller = $this;
+        $callable = function ($request, $response, $args) use ($app, $controller, $actionName) {
+            return call_user_func_array(array($controller, $actionName), [$request, $response, $args]);
+        };
+
+        return $callable;
+    }
+
+    /**
      * Get app container.
      *
      * @return ContainerInterface
