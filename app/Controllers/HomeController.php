@@ -49,15 +49,10 @@ class HomeController extends BaseController
     public function some(Request $request, Response $response, $args)
     {
         //echo SomeServiceFacade::aliasesTest();
-        //echo FuckName::aliasesTest();
+        echo FuckName::aliasesTest();
         //var_dump($this->getApp()->some);
         //echo "<pre>";
         //print_r(get_class_methods($this->app->get('some')));
-
-        // test
-        $controller = new AccountController($this->app);
-        //$account->handle();
-        call_user_func_array($controller('index'), ['aa', 'bb', ['cc']]);
     }
 
     /**

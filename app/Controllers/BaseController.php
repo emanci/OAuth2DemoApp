@@ -6,27 +6,29 @@
  */
 namespace App\Controllers;
 
-use Interop\Container\ContainerInterface;
+use Slim\App;
 use Slim\Http\Response;
 
 abstract class BaseController
 {
     /**
-     * @var ContainerInterface
+     * @var App
      */
     protected $app;
 
     /**
      * BaseController constructor.
      *
-     * @param ContainerInterface $app
+     * @param App $app
      */
-    public function __construct(ContainerInterface $app)
+    public function __construct(App $app)
     {
         $this->app = $app;
     }
 
     /**
+     * This method allows use to return a callable that calls the action for the route.
+     *
      * @param $actionName
      *
      * @return \Closure
@@ -40,16 +42,6 @@ abstract class BaseController
         };
 
         return $callable;
-    }
-
-    /**
-     * Get app container.
-     *
-     * @return ContainerInterface
-     */
-    public function getApp()
-    {
-        return $this->app;
     }
 
     /**
