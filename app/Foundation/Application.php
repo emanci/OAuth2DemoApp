@@ -23,14 +23,14 @@ class Application extends Container
     /**
      * @var null|App
      */
-    protected $app = null;
+    protected static $app = null;
 
     /**
      * Service Providers.
      *
      * @var array
      */
-    protected $providers = [];
+    protected static $providers = [];
 
     /**
      * Application constructor.
@@ -50,7 +50,7 @@ class Application extends Container
      */
     protected function initContainer()
     {
-        $this->app = new App(
+        self::$app = new App(
             [
                 'settings' => [
                     'httpVersion' => '1.1',
@@ -72,7 +72,7 @@ class Application extends Container
             ]
         );
 
-        $container = $this->app->getContainer();
+        $container = self::$app->getContainer();
 
         // Service factory for the ORM
         $capsule = new Manager();
@@ -112,8 +112,8 @@ class Application extends Container
             return new User();
         };
 
-        $this->app->add(new AuthMiddleware($container));
-        $this->app->add(new RoleMiddleware($container));
+        self::$app->add(new AuthMiddleware($container));
+        self::$app->add(new RoleMiddleware($container));
     }
 
     /**
@@ -122,7 +122,7 @@ class Application extends Container
     protected function setFacade()
     {
         Facade::clearResolvedInstances();
-        Facade::setFacadeApplication($this->app->getContainer());
+        Facade::setFacadeApplication(self::$app->getContainer());
     }
 
     /**
@@ -139,11 +139,37 @@ class Application extends Container
     }
 
     /**
+     * Resolve the given type from the container.
+     *
+     * @param $make
+     *
+     * @return \Slim\Interfaces\RouteInterface
+     */
+    public static function make($make)
+    {
+        if (is_null($make)) {
+            return self::$app->getContainer();
+        }
+
+        return self::$app->get($make);
+    }
+
+    /**
+     * Get Application.
+     *
+     * @return null|App
+     */
+    public static function app()
+    {
+        return self::$app;
+    }
+
+    /**
      * Run application.
      */
     public function run()
     {
-        $app = $this->app;
+        $app = self::$app;
         require APP_PATH.'/app/routers.php';
         $app->run();
     }

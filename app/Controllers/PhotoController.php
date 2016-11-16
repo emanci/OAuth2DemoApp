@@ -15,8 +15,11 @@ class PhotoController extends BaseController
     {
         echo "index";
 
-        echo "<pre>";
-        var_dump($request->getParams());
+        //echo "<pre>";
+        //var_dump($request->getParams());
+
+        $controller = controller('App\Controllers\AccountController');
+        echo $controller->handle();
     }
 
     public function create()

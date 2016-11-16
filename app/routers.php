@@ -23,12 +23,9 @@ $app->get('/log', 'App\Controllers\HomeController:log')->setName('home.log');
 $app->group(
     '/photo',
     function () use ($app) {
-        //echo "<pre>";
-        //print_r($app->getContainer());
         $controller = new \App\Controllers\PhotoController($app);
 
         $app->get('', $controller('index'));
-
 
         //$app->get('', 'App\Controllers\PhotoController:index');
         $app->get('/create', 'App\Controllers\PhotoController:create');

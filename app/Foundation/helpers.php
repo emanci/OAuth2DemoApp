@@ -1,4 +1,6 @@
 <?php
+use App\Foundation\Application;
+
 /**
  * Created by PhpStorm.
  * Author: PhilPu <zhengchaopu@gmail.com>
@@ -10,10 +12,12 @@ if (!function_exists('app')) {
      *
      * @param null  $service
      * @param array $parameters
+     *
+     * @return \Slim\Interfaces\RouteInterface
      */
     function app($service = null, $parameters = [])
     {
-
+        return Application::make($service);
     }
 }
 if (!function_exists('config')) {
@@ -36,9 +40,15 @@ if (!function_exists('config')) {
 if (!function_exists('controller')) {
     /**
      * @param $controllerName
+     *
+     * @return null
      */
     function controller($controllerName)
     {
+        if (class_exists($controllerName)) {
+            return new $controllerName(Application::app());
+        }
 
+        return null;
     }
 }

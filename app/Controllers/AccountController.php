@@ -16,6 +16,6 @@ class AccountController extends BaseController
 
     public function handle()
     {
-        echo "Handle method.";
+        echo "<br/>Handle method.";
     }
 }
