@@ -6,11 +6,14 @@
  */
 namespace App\Controllers;
 
+use App\Traits\TestingTrait;
 use Slim\Http\Response;
 use Interop\Container\ContainerInterface;
 
 abstract class BaseController
 {
+    use TestingTrait;
+
     /**
      * @var ContainerInterface
      */
@@ -50,26 +53,7 @@ abstract class BaseController
         $callable = function ($request, $response, $args) use ($container, $controller, $actionName) {
             $controller->setRequest($request);
             $controller->setResponse($response);
-
-            // store the name of the controller and action so we can assert during tests.
-            $controllerName = get_class($controller);
-            $controllerName = strtolower($controllerName);
-            $controllerNameParts = explode('\\', $controllerName);
-            $controllerName = array_pop($controllerNameParts);
-            preg_match('/(.*)controller$/', $controllerName, $result);
-            $controllerName = $result[1];
-
-            // these values will be useful when testing, but not included with the
-            // Slim\Http\Response. Instead use SlimMvc\Http\Response
-            if (method_exists($response, 'setControllerName')) {
-                $response->setControllerName($controllerName);
-            }
-            if (method_exists($response, 'setControllerClass')) {
-                $response->setControllerClass(get_class($controller));
-            }
-            if (method_exists($response, 'setActionName')) {
-                $response->setActionName($actionName);
-            }
+            $controller->process($response, $controller, $actionName);
 
             return call_user_func_array(array($controller, $actionName), [$request, $response, $args]);
         };
