@@ -46,7 +46,7 @@ if (!function_exists('controller')) {
     function controller($controllerName)
     {
         if (class_exists($controllerName)) {
-            return new $controllerName(Application::app());
+            return new $controllerName(Application::app()->getContainer());
         }
 
         return null;

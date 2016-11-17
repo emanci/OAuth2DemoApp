@@ -6,24 +6,24 @@
  */
 namespace App\Controllers;
 
-use Slim\App;
 use Slim\Http\Response;
+use Interop\Container\ContainerInterface;
 
 abstract class BaseController
 {
     /**
-     * @var App
+     * @var ContainerInterface
      */
-    protected $app;
+    protected $container;
 
     /**
      * BaseController constructor.
      *
-     * @param App $app
+     * @param ContainerInterface $container
      */
-    public function __construct(App $app)
+    public function __construct(ContainerInterface $container)
     {
-        $this->app = $app;
+        $this->container = $container;
     }
 
     /**
@@ -35,9 +35,9 @@ abstract class BaseController
      */
     public function __invoke($actionName)
     {
-        $app = $this->app;
+        $container = $this->container;
         $controller = $this;
-        $callable = function ($request, $response, $args) use ($app, $controller, $actionName) {
+        $callable = function ($request, $response, $args) use ($container, $controller, $actionName) {
             return call_user_func_array(array($controller, $actionName), [$request, $response, $args]);
         };
 

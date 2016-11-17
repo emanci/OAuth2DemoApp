@@ -23,7 +23,7 @@ $app->get('/log', 'App\Controllers\HomeController:log')->setName('home.log');
 $app->group(
     '/photo',
     function () use ($app) {
-        $controller = new \App\Controllers\PhotoController($app);
+        $controller = new \App\Controllers\PhotoController($app->getContainer());
 
         $app->get('', $controller('index'));
 
