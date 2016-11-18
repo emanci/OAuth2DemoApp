@@ -6,6 +6,7 @@
  */
 namespace App\Controllers;
 
+use App\Facades\MailFacade;
 use App\Models\User;
 use App\Support\Log;
 use Slim\Http\Request;
@@ -68,5 +69,16 @@ class HomeController extends BaseController
         echo Log::info('API response:', ['ee' => 'ee', 'ff' => 'ff']);
         echo Log::info('API response:', ['aaaaaaaa']);
 
+    }
+
+    /**
+     * @param Request  $request
+     * @param Response $response
+     * @param          $args
+     */
+    public function mail(Request $request, Response $response, $args)
+    {
+        //MailFacade::send();
+        FuckMail::send();
     }
 }

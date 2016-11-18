@@ -6,7 +6,9 @@
  */
 namespace App\Foundation;
 
+use App\Facades\MailFacade;
 use App\Facades\SomeServiceFacade;
+use App\Services\MailService;
 use Slim\App;
 use App\Models\User;
 use Slim\Views\Twig;
@@ -111,6 +113,9 @@ class Application extends Container
         $container['some'] = function ($container) {
             return new User();
         };
+        $container['mail'] = function ($container) {
+            return new MailService();
+        };
 
         self::$app->add(new AuthMiddleware($container));
         self::$app->add(new RoleMiddleware($container));
@@ -134,6 +139,7 @@ class Application extends Container
     {
         $aliases = array(
             'App\Controllers\FuckName' => SomeServiceFacade::class,
+            'App\Controllers\FuckMail' => MailFacade::class,
         );
         AliasLoader::getInstance($aliases)->register();
     }

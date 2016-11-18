@@ -19,6 +19,7 @@ $app->get(
     }
 );
 $app->get('/some', 'App\Controllers\HomeController:some')->setName('home.some');
+$app->get('/mail', 'App\Controllers\HomeController:mail')->setName('home.mail');
 $app->get('/log', 'App\Controllers\HomeController:log')->setName('home.log');
 $app->group(
     '/photo',

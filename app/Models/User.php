@@ -15,7 +15,7 @@ class User extends Model
     /**
      * Test facades.
      */
-    public function test()
+    public static function test()
     {
         echo "test method";
     }
