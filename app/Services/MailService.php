@@ -5,7 +5,7 @@
  * Date: 2016/11/19.
  */
 
-namespace app\Services;
+namespace App\Services;
 
 class MailService
 {

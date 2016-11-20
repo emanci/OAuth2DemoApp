@@ -5,7 +5,7 @@
  * Date: 2016/11/16.
  */
 
-namespace app\Controllers;
+namespace App\Controllers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;

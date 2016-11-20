@@ -5,7 +5,7 @@
  * Date: 2016/11/7.
  */
 
-namespace app\Middleware;
+namespace App\Middleware;
 
 use App\Foundation\Middleware;
 

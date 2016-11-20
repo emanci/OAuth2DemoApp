@@ -5,7 +5,7 @@
  * Date: 2016/11/7.
  */
 
-namespace app\Foundation;
+namespace App\Foundation;
 
 abstract class Middleware
 {

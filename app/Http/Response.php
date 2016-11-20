@@ -5,7 +5,7 @@
  * Date: 2016/11/16.
  */
 
-namespace app\Http;
+namespace App\Http;
 
 use Slim\Http\Response as SlimResponse;
 

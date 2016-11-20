@@ -5,7 +5,7 @@
  * Date: 2016/11/3.
  */
 
-namespace app\Controllers;
+namespace App\Controllers;
 
 use App\Facades\MailFacade;
 use App\Models\User;
@@ -79,9 +79,10 @@ class HomeController extends BaseController
     public function mail(Request $request, Response $response, $args)
     {
         //MailFacade::send();
-        FuckMail::send();
+        //FuckMail::send();
+
         //APT::tail();
 
-        return 'aaa';
+        //return null;
     }
 }

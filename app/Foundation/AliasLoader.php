@@ -5,7 +5,7 @@
  * Date: 2016/11/13.
  */
 
-namespace app\Foundation;
+namespace App\Foundation;
 
 class AliasLoader
 {

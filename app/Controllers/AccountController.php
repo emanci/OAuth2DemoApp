@@ -5,7 +5,7 @@
  * Date: 2016/11/15.
  */
 
-namespace app\Controllers;
+namespace App\Controllers;
 
 class AccountController extends BaseController
 {

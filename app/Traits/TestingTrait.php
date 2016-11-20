@@ -5,7 +5,7 @@
  * Date: 2016/11/17.
  */
 
-namespace app\Traits;
+namespace App\Traits;
 
 trait TestingTrait
 {

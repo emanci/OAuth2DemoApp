@@ -5,7 +5,7 @@
  * Date: 2016/11/14.
  */
 
-namespace app\Support;
+namespace App\Support;
 
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;

@@ -5,7 +5,7 @@
  * Date: 2016/11/3.
  */
 
-namespace app\Controllers;
+namespace App\Controllers;
 
 use App\Traits\TestingTrait;
 use Slim\Http\Response;

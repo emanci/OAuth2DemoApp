@@ -5,7 +5,7 @@
  * Date: 2016/11/19.
  */
 
-namespace app\Facades;
+namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
 

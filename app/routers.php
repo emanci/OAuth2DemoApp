@@ -4,7 +4,13 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/2.
  */
-$app->get('/', 'App\Controllers\HomeController:index')->setName('home');
+//$app->get('/', 'App\Controllers\HomeController:index')->setName('home');
+$app->get(
+    '/',
+    function () {
+        echo "Welcome Boy";die();
+    }
+);
 $app->get('/user', 'App\Controllers\HomeController:user')->setName('home.user');
 $app->get(
     '/test/{name}',
