@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/17.
  */
-namespace App\Traits;
+
+namespace app\Traits;
 
 trait TestingTrait
 {
@@ -14,8 +15,6 @@ trait TestingTrait
      * @param $response
      * @param $controller
      * @param $actionName
-     *
-     * @return void
      */
     public function process($response, $controller, $actionName)
     {

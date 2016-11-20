@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/7.
  */
-namespace App\Middleware;
+
+namespace app\Middleware;
 
 use App\Foundation\Middleware;
 
@@ -22,7 +23,7 @@ class AuthMiddleware extends Middleware
         //$response->getBody()->write('Auth BEFORE.');
         $response = $next($request, $response);
 
-        //$response->getBody()->write('Auth AFTER.');
+        $response->getBody()->write('Auth AFTER.');
 
         return $response;
     }

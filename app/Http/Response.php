@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/16.
  */
-namespace App\Http;
+
+namespace app\Http;
 
 use Slim\Http\Response as SlimResponse;
 

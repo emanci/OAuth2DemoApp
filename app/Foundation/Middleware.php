@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/7.
  */
-namespace App\Foundation;
+
+namespace app\Foundation;
 
 abstract class Middleware
 {

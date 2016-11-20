@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/19.
  */
-namespace App\Facades;
+
+namespace app\Facades;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
 

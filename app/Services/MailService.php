@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/19.
  */
-namespace App\Services;
+
+namespace app\Services;
 
 class MailService
 {
@@ -13,6 +14,6 @@ class MailService
      */
     public function send()
     {
-        echo "has been send mail.";
+        echo 'has been send mail.';
     }
 }

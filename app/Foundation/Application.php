@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/2.
  */
-namespace App\Foundation;
+
+namespace app\Foundation;
 
 use App\Facades\MailFacade;
 use App\Facades\SomeServiceFacade;

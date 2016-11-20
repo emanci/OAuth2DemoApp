@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/3.
  */
-namespace App\Controllers;
+
+namespace app\Controllers;
 
 use App\Traits\TestingTrait;
 use Slim\Http\Response;

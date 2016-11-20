@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/16.
  */
-namespace App\Http;
+
+namespace app\Http;
 
 use Slim\Http\Request as SlimRequest;
 
@@ -15,8 +16,6 @@ class Request extends SlimRequest
      *
      * @param      $name
      * @param null $default
-     *
-     * @return null
      */
     public function getCookie($name, $default = null)
     {

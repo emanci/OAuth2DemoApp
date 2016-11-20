@@ -4,7 +4,8 @@
  * Author: phil <zhengchaopu@gmail.com>
  * Date: 2016/11/14.
  */
-namespace App\Support;
+
+namespace app\Support;
 
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
@@ -12,7 +13,7 @@ use Monolog\Processor\UidProcessor;
 use Monolog\Handler\StreamHandler;
 
 /**
- * Class Log
+ * Class Log.
  *
  * @method emergency(string $message, array $context, $filename); // 紧急状况，比如系统挂掉
  * @method alert(string $message, array $context, $filename);     // 需要立即采取行动的问题，比如整站宕掉，数据库异常等，这种状况应该通过短信提醒

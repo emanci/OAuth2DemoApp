@@ -4,18 +4,19 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/15.
  */
-namespace App\Controllers;
+
+namespace app\Controllers;
 
 class AccountController extends BaseController
 {
     public function index($request, $response, $args)
     {
         echo $response;
-        echo "Index.";
+        echo 'Index.';
     }
 
     public function handle()
     {
-        echo "<br/>Handle method.";
+        echo '<br/>Handle method.';
     }
 }

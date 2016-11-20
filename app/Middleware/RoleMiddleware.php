@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/7.
  */
-namespace App\Middleware;
+
+namespace app\Middleware;
 
 use App\Foundation\Middleware;
 

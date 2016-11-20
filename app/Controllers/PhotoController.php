@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/16.
  */
-namespace App\Controllers;
+
+namespace app\Controllers;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -13,7 +14,7 @@ class PhotoController extends BaseController
 {
     public function index(Request $request, Response $response, $args)
     {
-        echo "index";
+        echo 'index';
 
         //echo "<pre>";
         //var_dump($request->getParams());
@@ -24,31 +25,31 @@ class PhotoController extends BaseController
 
     public function create()
     {
-        echo "create";
+        echo 'create';
     }
 
     public function store()
     {
-        echo "store";
+        echo 'store';
     }
 
     public function show()
     {
-        echo "show";
+        echo 'show';
     }
 
     public function edit()
     {
-        echo "edit";
+        echo 'edit';
     }
 
     public function update()
     {
-        echo "update";
+        echo 'update';
     }
 
     public function destroy()
     {
-        echo "destroy";
+        echo 'destroy';
     }
 }

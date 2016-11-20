@@ -4,7 +4,8 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/3.
  */
-namespace App\Controllers;
+
+namespace app\Controllers;
 
 use App\Facades\MailFacade;
 use App\Models\User;
@@ -22,7 +23,7 @@ class HomeController extends BaseController
      */
     public function index(Request $request, Response $response, $args)
     {
-        echo "Welcome, Friend";
+        echo 'Welcome, Friend';
     }
 
     /**
@@ -63,12 +64,11 @@ class HomeController extends BaseController
      */
     public function log(Request $request, Response $response, $args)
     {
-        echo "Log:<br/>";
+        echo 'Log:<br/>';
         echo Log::error('API response:', ['aa' => 'aa', 'bb' => 'bb']);
         echo Log::error('API response:', ['cc' => 'cc', 'dd' => 'dd']);
         echo Log::info('API response:', ['ee' => 'ee', 'ff' => 'ff']);
         echo Log::info('API response:', ['aaaaaaaa']);
-
     }
 
     /**
@@ -80,5 +80,8 @@ class HomeController extends BaseController
     {
         //MailFacade::send();
         FuckMail::send();
+        //APT::tail();
+
+        return 'aaa';
     }
 }

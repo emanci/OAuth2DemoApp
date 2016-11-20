@@ -1,7 +1,8 @@
 <?php
+
 use App\Foundation\Application;
 
-/**
+/*
  * Created by PhpStorm.
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/14.
@@ -40,8 +41,6 @@ if (!function_exists('config')) {
 if (!function_exists('controller')) {
     /**
      * @param $controllerName
-     *
-     * @return null
      */
     function controller($controllerName)
     {
