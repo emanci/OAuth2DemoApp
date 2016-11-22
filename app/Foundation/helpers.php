@@ -1,15 +1,15 @@
 <?php
-
-use App\Foundation\Application;
-
 /*
  * Created by PhpStorm.
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/14.
  */
+
+use App\Foundation\Application;
+
 if (!function_exists('app')) {
     /**
-     * Get the available container instance.
+     * Get the available container instance..
      *
      * @param null  $service
      * @param array $parameters
@@ -41,6 +41,8 @@ if (!function_exists('config')) {
 if (!function_exists('controller')) {
     /**
      * @param $controllerName
+     *
+     * @return null
      */
     function controller($controllerName)
     {

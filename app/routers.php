@@ -8,7 +8,8 @@
 $app->get(
     '/',
     function () {
-        echo "Welcome Boy";die();
+        echo "Welcome Boy";
+        die();
     }
 );
 $app->get('/user', 'App\Controllers\HomeController:user')->setName('home.user');
@@ -43,3 +44,8 @@ $app->group(
         $app->delete('/{id}', 'App\Controllers\PhotoController:destroy');
     }
 );
+
+/**
+ * OAuth2 demo application.
+ */
+$app->get('/demo', 'App\Controllers\Client\WelcomeController:index')->setName('welcome.demo');

@@ -93,7 +93,7 @@ abstract class BaseController
      */
     public function render(Response $response, $template, array $data = [])
     {
-        return $this->app->view->render($response, $template, $data);
+        return $this->container->view->render($response, $template, $data);
     }
 
     /**

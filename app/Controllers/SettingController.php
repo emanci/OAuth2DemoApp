@@ -11,8 +11,10 @@ class SettingController
 {
     public function profile()
     {
+        $aa = 'hello';
         array_map(
-            function () {
+
+            function () use ($aa) {
                 return '';
             }
         );

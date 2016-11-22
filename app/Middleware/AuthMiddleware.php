@@ -25,7 +25,7 @@ class AuthMiddleware extends Middleware
         //$response->getBody()->write('Auth BEFORE.');
         $response = $next($request, $response);
 
-        $response->getBody()->write('Auth AFTER.');
+        //$response->getBody()->write('Auth AFTER.');
 
         return $response;
     }

@@ -42,6 +42,7 @@ class Application extends Container
      */
     public function __construct($config = null)
     {
+        parent::__construct();
         session_start();
         $this->initContainer();
         $this->setFacade();
@@ -142,6 +143,7 @@ class Application extends Container
             'App\Controllers\FuckName' => SomeServiceFacade::class,
             'App\Controllers\FuckMail' => MailFacade::class,
         );
+
         AliasLoader::getInstance($aliases)->register();
     }
 
