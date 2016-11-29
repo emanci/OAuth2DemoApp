@@ -34,7 +34,11 @@ if (!function_exists('config')) {
      */
     function config($key = null, $default = null)
     {
-        return $default;
+        if (is_null($key)) {
+            return app('config');
+        }
+
+        return app('config')->getConfig()->get($key, $default);
     }
 }
 

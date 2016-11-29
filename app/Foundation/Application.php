@@ -10,6 +10,7 @@ namespace App\Foundation;
 use App\Facades\MailFacade;
 use App\Facades\SomeServiceFacade;
 use App\Services\MailService;
+use DavidePastore\Slim\Config\Config;
 use Slim\App;
 use App\Models\User;
 use Slim\Views\Twig;
@@ -57,26 +58,30 @@ class Application extends Container
         self::$app = new App(
             [
                 'settings' => [
-                    'httpVersion' => '1.1',
-                    'responseChunkSize' => 4096,
-                    'outputBuffering' => 'append',
+                    'httpVersion'                       => '1.1',
+                    'responseChunkSize'                 => 4096,
+                    'outputBuffering'                   => 'append',
                     'determineRouteBeforeAppMiddleware' => false,
-                    'displayErrorDetails' => true,
-                    'db' => [
-                        'driver' => 'mysql',
-                        'host' => 'localhost',
-                        'database' => 'oauth2_app',
-                        'username' => 'root',
-                        'password' => 'root',
-                        'charset' => 'utf8',
+                    'displayErrorDetails'               => true,
+                    'db'                                => [
+                        'driver'    => 'mysql',
+                        'host'      => 'localhost',
+                        'database'  => 'oauth2_app',
+                        'username'  => 'root',
+                        'password'  => 'root',
+                        'charset'   => 'utf8',
                         'collation' => 'utf8_unicode_ci',
-                        'prefix' => '',
+                        'prefix'    => '',
                     ],
                 ],
             ]
         );
 
         $container = self::$app->getContainer();
+
+        $container['config'] = function ($container) {
+            return new Config(APP_PATH.'/config');
+        };
 
         // Service factory for the ORM
         $capsule = new Manager();
@@ -119,6 +124,7 @@ class Application extends Container
             return new MailService();
         };
 
+        self::$app->add($container->get('config'));
         self::$app->add(new AuthMiddleware($container));
         self::$app->add(new RoleMiddleware($container));
     }
@@ -160,7 +166,7 @@ class Application extends Container
             return self::$app->getContainer();
         }
 
-        return self::$app->get($make);
+        return self::$app->getContainer()->get($make);
     }
 
     /**

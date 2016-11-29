@@ -5,13 +5,13 @@
  * Date: 2016/11/2.
  */
 //$app->get('/', 'App\Controllers\HomeController:index')->setName('home');
-$app->get(
+/*$app->get(
     '/',
     function () {
         echo "Welcome Boy";
         die();
     }
-);
+);*/
 $app->get('/user', 'App\Controllers\HomeController:user')->setName('home.user');
 $app->get(
     '/test/{name}',
@@ -45,7 +45,18 @@ $app->group(
     }
 );
 
+
 /**
  * OAuth2 demo application.
  */
-$app->get('/demo', 'App\Controllers\Client\WelcomeController:index')->setName('welcome.demo');
+$app->group(
+    '/oauth2',
+    function () use ($app) {
+        $app->get('/', 'App\Controllers\Client\WelcomeController:index')->setName('welcome.index');
+        $app->get('/lockdin/authorize', 'App\Controllers\Server\ServerController:connect')->setName('server.connect');
+        $app->get(
+            '/client/receive_authcode',
+            'App\Controllers\Client\ReceiveAuthorizationCodeController:receiveAuthorizationCode'
+        )->setName('receiveAuthorizationCode.receiveAuthorizationCode');
+    }
+);

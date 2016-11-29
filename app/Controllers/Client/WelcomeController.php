@@ -22,6 +22,24 @@ class WelcomeController extends BaseController
      */
     public function index(Request $request, Response $response, $args)
     {
-        $this->render($response, '/client/index.twig', []);
+        $query = http_build_query(
+            [
+                'response_type' => 'code',
+                'client_id'     => '',
+                'redirect_uri'  => 'http://local.oauth2.com/oauth2/client/receive_authcode',
+                'state'         => session_id(),
+            ]
+        );
+
+        $authorizeRoute = config('demo_app.authorize_route');
+
+        $authorizeUrl = $authorizeRoute.'?'.$query;
+
+        $data = [
+            'authorize_url' => $authorizeUrl,
+        ];
+
+
+        $this->render($response, '/client/index.twig', $data);
     }
 }
