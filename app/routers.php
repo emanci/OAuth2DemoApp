@@ -4,7 +4,7 @@
  * Author: PhilPu <zhengchaopu@gmail.com>
  * Date: 2016/11/2.
  */
-//$app->get('/', 'App\Controllers\HomeController:index')->setName('home');
+$app->get('/', 'App\Controllers\HomeController:index')->setName('home');
 /*$app->get(
     '/',
     function () {
@@ -45,6 +45,7 @@ $app->group(
     }
 );
 
+$app->get('/user/profile', 'App\Controllers\UserController:profile')->setName('user.profile');
 
 /**
  * OAuth2 demo application.
@@ -52,11 +53,21 @@ $app->group(
 $app->group(
     '/oauth2',
     function () use ($app) {
+        // client
         $app->get('/', 'App\Controllers\Client\WelcomeController:index')->setName('welcome.index');
-        $app->get('/lockdin/authorize', 'App\Controllers\Server\ServerController:connect')->setName('server.connect');
-        $app->get(
-            '/client/receive_authcode',
-            'App\Controllers\Client\ReceiveAuthorizationCodeController:receiveAuthorizationCode'
-        )->setName('receiveAuthorizationCode.receiveAuthorizationCode');
+        $app->get('/client/receive_authcode', 'App\Controllers\Client\AuthorizationCodeController:receive')->setName(
+            'authorizationCode.receive'
+        );
+        $app->get('/client/receive_implicit_token', 'App\Controllers\Client\ImplicitTokenController:receive')->setName(
+            'implicitToken.receive'
+        );
+        // server
+        //$app->get('/lockdin', 'App\Controllers\Server\ServerController:connect')->setName('server.connect');
+        $app->get('/lockdin/authorize', 'App\Controllers\Server\AuthorizeController:authorize')->setName(
+            'authorize.authorize'
+        );
+        $app->post('/lockdin/authorize', 'App\Controllers\Server\AuthorizeController:authorizeFormSubmit')->setName(
+            'authorize.authorize_post'
+        );
     }
 );

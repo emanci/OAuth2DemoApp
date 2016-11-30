@@ -25,7 +25,7 @@ class WelcomeController extends BaseController
         $query = http_build_query(
             [
                 'response_type' => 'code',
-                'client_id'     => '',
+                'client_id'     => 'demoapp',
                 'redirect_uri'  => 'http://local.oauth2.com/oauth2/client/receive_authcode',
                 'state'         => session_id(),
             ]

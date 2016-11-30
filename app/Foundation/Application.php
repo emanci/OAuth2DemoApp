@@ -7,10 +7,12 @@
 
 namespace App\Foundation;
 
+use App\Controllers\UserController;
 use App\Facades\MailFacade;
 use App\Facades\SomeServiceFacade;
 use App\Services\MailService;
 use DavidePastore\Slim\Config\Config;
+use Interop\Container\ContainerInterface;
 use Slim\App;
 use App\Models\User;
 use Slim\Views\Twig;
@@ -58,20 +60,20 @@ class Application extends Container
         self::$app = new App(
             [
                 'settings' => [
-                    'httpVersion'                       => '1.1',
-                    'responseChunkSize'                 => 4096,
-                    'outputBuffering'                   => 'append',
+                    'httpVersion' => '1.1',
+                    'responseChunkSize' => 4096,
+                    'outputBuffering' => 'append',
                     'determineRouteBeforeAppMiddleware' => false,
-                    'displayErrorDetails'               => true,
-                    'db'                                => [
-                        'driver'    => 'mysql',
-                        'host'      => 'localhost',
-                        'database'  => 'oauth2_app',
-                        'username'  => 'root',
-                        'password'  => 'root',
-                        'charset'   => 'utf8',
+                    'displayErrorDetails' => true,
+                    'db' => [
+                        'driver' => 'mysql',
+                        'host' => 'localhost',
+                        'database' => 'oauth2_app',
+                        'username' => 'root',
+                        'password' => 'root',
+                        'charset' => 'utf8',
                         'collation' => 'utf8_unicode_ci',
-                        'prefix'    => '',
+                        'prefix' => '',
                     ],
                 ],
             ]
@@ -122,6 +124,10 @@ class Application extends Container
         };
         $container['mail'] = function ($container) {
             return new MailService();
+        };
+
+        $container[UserController::class] = function ($container) {
+            return new UserController($container, new MailService());
         };
 
         self::$app->add($container->get('config'));

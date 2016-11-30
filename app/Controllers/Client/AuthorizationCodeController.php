@@ -11,7 +11,7 @@ use App\Controllers\BaseController;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class ReceiveAuthorizationCodeController extends BaseController
+class AuthorizationCodeController extends BaseController
 {
     /**
      * Receive authorization code.
@@ -22,7 +22,7 @@ class ReceiveAuthorizationCodeController extends BaseController
      *
      * @return mixed
      */
-    public function receiveAuthorizationCode(Request $request, Response $response, $args)
+    public function receive(Request $request, Response $response, $args)
     {
         // the user denied the authorization request
         if (!$code = $request->getParam('code')) {
