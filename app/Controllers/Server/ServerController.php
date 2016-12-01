@@ -24,11 +24,21 @@ use Slim\Http\Response;
  */
 class ServerController extends BaseController
 {
+    /**
+     * Connet OAuth2 server.
+     *
+     * @return OAuth2Server
+     */
     public function connect()
     {
-        $this->setUp();
+        return $this->setUp();
     }
 
+    /**
+     * Setup OAuth2 server.
+     *
+     * @return OAuth2Server
+     */
     protected function setUp()
     {
         $dsn = 'mysql:dbname=oauth2_app;host=localhost';
@@ -63,8 +73,7 @@ class ServerController extends BaseController
 
         $server->addStorage($this->getKeyStorage(), 'public_key');
 
-        $this->container['oauth_server'] = $server;
-        $this->container['oauth_response'] = new BridgeResponse();
+        return $server;
     }
 
     /**

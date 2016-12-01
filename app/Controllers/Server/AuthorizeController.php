@@ -14,33 +14,73 @@ use Slim\Http\Response;
 
 class AuthorizeController extends ServerController
 {
+    /**
+     * authorize.
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param          $args
+     *
+     * @return mixed|static
+     */
     public function authorize(Request $request, Response $response, $args)
     {
-        $this->connect();
-        $server = $this->container['oauth_server'];
-        //$oauthResponse = $this->container['oauth_response'];
+        $server = $this->connect();
 
         $oauthRequest = \OAuth2\Request::createFromGlobals();
         $oauthResponse = new \OAuth2\Response();
 
-        //var_dump($server->validateAuthorizeRequest($oauthRequest, $oauthResponse));
         if (!$server->validateAuthorizeRequest($oauthRequest, $oauthResponse)) {
-            echo "<pre>";
-            print_r($server->getResponse());
+            $serverResponse = $server->getResponse();
 
-            return $server->getResponse();
+            $statusCode = $serverResponse->getStatusCode();
+            $errors = $serverResponse->getParameters();
+
+            return $response->withJson(
+                [
+                    'code'              => $statusCode,
+                    'error'             => $errors['error'],
+                    'error_description' => $errors['error_description'],
+                ]
+            );
         }
 
+        $path = $this->container->get('router')->pathFor('authorize.authorize_post');
+        $params = $request->getParams();
+        array_shift($params);
+        $query = http_build_query($params);
+
         $data = array(
-            'client_id'     => $request->getParam('client_id'),
-            'response_type' => $request->getParam('response_type'),
+            'client_id'      => $request->getParam('client_id'),
+            'response_type'  => $request->getParam('response_type'),
+            'authorize_post' => $path.'?'.$query,
         );
 
         return $this->render($response, '/server/authorize.twig', $data);
     }
 
+    /**
+     * Authorize form submit.
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param          $args
+     *
+     * @return static
+     */
     public function authorizeFormSubmit(Request $request, Response $response, $args)
     {
+        $server = $this->connect();
 
+        $oauthRequest = \OAuth2\Request::createFromGlobals();
+        $oauthResponse = new \OAuth2\Response();
+        $authorized = (bool) $request->getParam('authorize');
+
+        // call the oauth server and return the response
+        $serverResponse = $server->handleAuthorizeRequest($oauthRequest, $oauthResponse, $authorized);
+
+        $redirectUrl = $serverResponse->getHttpHeader('Location');
+
+        return $response->withRedirect($redirectUrl);
     }
 }
