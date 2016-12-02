@@ -11,6 +11,8 @@ use App\Controllers\BaseController;
 use Interop\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use OAuth2\Request as OAuth2Request;
+use OAuth2\Response as OAuth2Response;
 
 class AuthorizeController extends ServerController
 {
@@ -27,8 +29,8 @@ class AuthorizeController extends ServerController
     {
         $server = $this->connect();
 
-        $oauthRequest = \OAuth2\Request::createFromGlobals();
-        $oauthResponse = new \OAuth2\Response();
+        $oauthRequest = OAuth2Request::createFromGlobals();
+        $oauthResponse = new OAuth2Response();
 
         if (!$server->validateAuthorizeRequest($oauthRequest, $oauthResponse)) {
             $serverResponse = $server->getResponse();
@@ -72,9 +74,9 @@ class AuthorizeController extends ServerController
     {
         $server = $this->connect();
 
-        $oauthRequest = \OAuth2\Request::createFromGlobals();
-        $oauthResponse = new \OAuth2\Response();
         $authorized = (bool) $request->getParam('authorize');
+        $oauthRequest = OAuth2Request::createFromGlobals();
+        $oauthResponse = new OAuth2Response();
 
         // call the oauth server and return the response
         $serverResponse = $server->handleAuthorizeRequest($oauthRequest, $oauthResponse, $authorized);

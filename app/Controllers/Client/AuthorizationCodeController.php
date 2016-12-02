@@ -44,6 +44,6 @@ class AuthorizationCodeController extends BaseController
             );*/
         }
 
-        return $this->render($response, '/client/success/show_authorization_code.twig', array('code' => $code));
+        return $this->render($response, '/client/successful/show_authorization_code.twig', array('code' => $code));
     }
 }
