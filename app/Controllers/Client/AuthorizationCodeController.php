@@ -26,24 +26,22 @@ class AuthorizationCodeController extends BaseController
     {
         // the user denied the authorization request
         if (!$code = $request->getParam('code')) {
-            die('Denied');
-            /*return $this->render(
+            return $this->render(
                 $response,
-                'client/failed_authorization.twig',
-                array('response' => $request->getParams())
-            );*/
+                '/client/failed/failed_authorization.twig',
+                ['response' => $request->getParams()]
+            );
         }
 
         // verify the "state" parameter matches this user's session (this is like CSRF - very important!!)
         if ($request->getParam('state') !== session_id()) {
-            die('Denied');
-            /*return $this->render(
+            return $this->render(
                 $response,
-                '/client/failed_authorization.twig',
-                array('response' => array('error_description' => 'Your session has expired.  Please try again.'))
-            );*/
+                '/client/failed/failed_authorization.twig',
+                ['response' => ['error_description' => 'Your session has expired.  Please try again.']]
+            );
         }
 
-        return $this->render($response, '/client/successful/show_authorization_code.twig', array('code' => $code));
+        return $this->render($response, '/client/successful/show_authorization_code.twig', ['code' => $code]);
     }
 }

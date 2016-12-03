@@ -10,6 +10,7 @@ namespace App\Foundation;
 use App\Controllers\UserController;
 use App\Facades\MailFacade;
 use App\Facades\SomeServiceFacade;
+use App\Foundation\Twig\JsonStringifyExtension;
 use App\Services\MailService;
 use DavidePastore\Slim\Config\Config;
 use Interop\Container\ContainerInterface;
@@ -60,20 +61,20 @@ class Application extends Container
         self::$app = new App(
             [
                 'settings' => [
-                    'httpVersion' => '1.1',
-                    'responseChunkSize' => 4096,
-                    'outputBuffering' => 'append',
+                    'httpVersion'                       => '1.1',
+                    'responseChunkSize'                 => 4096,
+                    'outputBuffering'                   => 'append',
                     'determineRouteBeforeAppMiddleware' => false,
-                    'displayErrorDetails' => true,
-                    'db' => [
-                        'driver' => 'mysql',
-                        'host' => 'localhost',
-                        'database' => 'oauth2_app',
-                        'username' => 'root',
-                        'password' => 'root',
-                        'charset' => 'utf8',
+                    'displayErrorDetails'               => true,
+                    'db'                                => [
+                        'driver'    => 'mysql',
+                        'host'      => 'localhost',
+                        'database'  => 'oauth2_app',
+                        'username'  => 'root',
+                        'password'  => 'root',
+                        'charset'   => 'utf8',
                         'collation' => 'utf8_unicode_ci',
-                        'prefix' => '',
+                        'prefix'    => '',
                     ],
                 ],
             ]
@@ -112,6 +113,7 @@ class Application extends Container
                     $container->request->getUri()
                 )
             );
+            $view->addExtension(new JsonStringifyExtension());
             if ($container->has('flash')) {
                 $view->getEnvironment()->addGlobal('flash', $container->flash);
             }
