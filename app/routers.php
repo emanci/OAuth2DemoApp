@@ -54,7 +54,9 @@ $app->group(
     '/oauth2',
     function () use ($app) {
         // client
+        // Homepage
         $app->get('/', 'App\Controllers\Client\WelcomeController:index')->setName('welcome.index');
+        // Receive authorization code
         $app->get('/client/receive_authcode', 'App\Controllers\Client\AuthorizationCodeController:receive')->setName(
             'authorizationCode.receive'
         );
@@ -62,12 +64,18 @@ $app->group(
             'implicitToken.receive'
         );
         // server
-        //$app->get('/lockdin', 'App\Controllers\Server\ServerController:connect')->setName('server.connect');
+        // Validate authorize request
         $app->get('/lockdin/authorize', 'App\Controllers\Server\AuthorizeController:authorize')->setName(
             'authorize.authorize'
         );
+        // Authorize request
         $app->post('/lockdin/authorize', 'App\Controllers\Server\AuthorizeController:authorizeFormSubmit')->setName(
             'authorize.authorize_post'
         );
+        // Retrieve access token
+        $app->get(
+            '/client/request_token/authorization_code',
+            'App\Controllers\Client\RequestToken:requestTokenWithAuthCode'
+        )->setName('requestToken.request_token_with_authcode');
     }
 );

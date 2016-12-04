@@ -13,6 +13,7 @@ use App\Facades\SomeServiceFacade;
 use App\Foundation\Twig\JsonStringifyExtension;
 use App\Services\MailService;
 use DavidePastore\Slim\Config\Config;
+use GuzzleHttp\Client;
 use Interop\Container\ContainerInterface;
 use Slim\App;
 use App\Models\User;
@@ -124,6 +125,7 @@ class Application extends Container
         $container['some'] = function ($container) {
             return new User();
         };
+
         $container['mail'] = function ($container) {
             return new MailService();
         };

@@ -23,8 +23,8 @@ return [
         ],
     ],
     "demo_app" => [
-        "client_id"       => "OAuth2DemoApplication",
-        "client_secret"   => "a3b4b74330724a927bec",
+        "client_id"       => "demoapp",
+        "client_secret"   => "demopass",
         "token_route"     => "http://local.oauth2.com/token",
         "authorize_route" => "http://local.oauth2.com/oauth2/lockdin/authorize",
         "resource_route"  => "http://local.oauth2.com/profile",
@@ -35,6 +35,9 @@ return [
         "curl_options"    => [
             "http_port" => 443,
             "verifyssl" => false,
+        ],
+        "http_options"    => [
+            "exceptions" => false,
         ],
     ],
 ];

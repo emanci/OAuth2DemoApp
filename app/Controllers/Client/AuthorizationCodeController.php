@@ -42,6 +42,13 @@ class AuthorizationCodeController extends BaseController
             );
         }
 
-        return $this->render($response, '/client/successful/show_authorization_code.twig', ['code' => $code]);
+        $path = $this->container->router->pathFor('requestToken.request_token_with_authcode');
+        $requestTokenUrl = $path.'?code='.$code;
+
+        return $this->render(
+            $response,
+            '/client/successful/show_authorization_code.twig',
+            ['request_token_url' => $requestTokenUrl]
+        );
     }
 }
