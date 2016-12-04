@@ -8,6 +8,7 @@
 namespace App\Controllers\Client;
 
 use App\Controllers\BaseController;
+use App\OAuth2\Client;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -22,24 +23,9 @@ class WelcomeController extends BaseController
      */
     public function index(Request $request, Response $response, $args)
     {
-        $query = http_build_query(
-            [
-                'response_type' => 'code',
-                'client_id'     => 'demoapp',
-                'redirect_uri'  => 'http://local.oauth2.com/oauth2/client/receive_authcode',
-                'state'         => session_id(),
-            ]
-        );
+        $authorizeClient = new Client();
+        $authorizeUrl = $authorizeClient->authorize();
 
-        $authorizeRoute = config('demo_app.authorize_route');
-
-        $authorizeUrl = $authorizeRoute.'?'.$query;
-
-        $data = [
-            'authorize_url' => $authorizeUrl,
-        ];
-
-
-        $this->render($response, '/client/index.twig', $data);
+        $this->render($response, '/client/index.twig', ['authorize_url' => $authorizeUrl]);
     }
 }

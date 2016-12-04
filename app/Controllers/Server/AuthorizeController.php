@@ -17,6 +17,28 @@ use OAuth2\Response as OAuth2Response;
 class AuthorizeController extends ServerController
 {
     /**
+     * @var
+     */
+    protected $oauthRequest;
+
+    /**
+     * @var
+     */
+    protected $oauthResponse;
+
+    /**
+     * AuthorizeController constructor.
+     *
+     * @param ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
+        $this->oauthRequest = OAuth2Request::createFromGlobals();
+        $this->oauthResponse = new OAuth2Response();
+    }
+
+    /**
      * authorize.
      *
      * @param Request  $request
@@ -29,10 +51,7 @@ class AuthorizeController extends ServerController
     {
         $server = $this->connect();
 
-        $oauthRequest = OAuth2Request::createFromGlobals();
-        $oauthResponse = new OAuth2Response();
-
-        if (!$server->validateAuthorizeRequest($oauthRequest, $oauthResponse)) {
+        if (!$server->validateAuthorizeRequest($this->oauthRequest, $this->oauthResponse)) {
             $serverResponse = $server->getResponse();
 
             $statusCode = $serverResponse->getStatusCode();
@@ -48,14 +67,24 @@ class AuthorizeController extends ServerController
         }
 
         $path = $this->container->get('router')->pathFor('authorize.authorize_post');
-        $params = $request->getParams();
-        array_shift($params);
+        $responseType = $request->getParam('response_type');
+        $clientId = $request->getParam('client_id');
+        $redirectUri = $request->getParam('redirect_uri');
+        $state = $request->getParam('state');
+        $params = [
+            'client_id'     => $clientId,
+            'redirect_uri'  => $redirectUri,
+            'response_type' => $responseType,
+            'state'         => $state,
+        ];
+
         $query = http_build_query($params);
+        $authorizePost = $path.'?'.$query;
 
         $data = array(
-            'client_id'      => $request->getParam('client_id'),
-            'response_type'  => $request->getParam('response_type'),
-            'authorize_post' => $path.'?'.$query,
+            'client_id'      => $clientId,
+            'response_type'  => $responseType,
+            'authorize_post' => $authorizePost,
         );
 
         return $this->render($response, '/server/authorize.twig', $data);
@@ -75,11 +104,9 @@ class AuthorizeController extends ServerController
         $server = $this->connect();
 
         $authorized = (bool) $request->getParam('authorize');
-        $oauthRequest = OAuth2Request::createFromGlobals();
-        $oauthResponse = new OAuth2Response();
 
         // call the oauth server and return the response
-        $serverResponse = $server->handleAuthorizeRequest($oauthRequest, $oauthResponse, $authorized);
+        $serverResponse = $server->handleAuthorizeRequest($this->oauthRequest, $this->oauthResponse, $authorized);
 
         $redirectUrl = $serverResponse->getHttpHeader('Location');
 
