@@ -25,7 +25,7 @@ return [
     "demo_app" => [
         "client_id"       => "demoapp",
         "client_secret"   => "demopass",
-        "token_route"     => "http://local.oauth2.com/token",
+        "token_route"     => "http://local.oauth2.com/token/grant",
         "authorize_route" => "http://local.oauth2.com/oauth2/lockdin/authorize",
         "resource_route"  => "http://local.oauth2.com/profile",
         "resource_method" => "POST",
@@ -37,7 +37,7 @@ return [
             "verifyssl" => false,
         ],
         "http_options"    => [
-            "exceptions" => false,
+            //"exceptions" => false,
         ],
     ],
 ];

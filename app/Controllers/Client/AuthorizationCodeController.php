@@ -48,7 +48,7 @@ class AuthorizationCodeController extends BaseController
         return $this->render(
             $response,
             '/client/successful/show_authorization_code.twig',
-            ['request_token_url' => $requestTokenUrl]
+            ['code' => $code, 'request_token_url' => $requestTokenUrl]
         );
     }
 }

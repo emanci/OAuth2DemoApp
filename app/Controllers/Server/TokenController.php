@@ -7,6 +7,7 @@
 
 namespace App\Controllers\Server;
 
+use Interop\Container\ContainerInterface;
 use OAuth2\Request as OAuth2Request;
 use OAuth2\Response as OAuth2Response;
 

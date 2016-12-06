@@ -79,3 +79,9 @@ $app->group(
         )->setName('requestToken.request_token_with_authcode');
     }
 );
+$app->group(
+    '/token',
+    function () use ($app) {
+        $app->post('/grant', 'App\Controllers\Server\TokenController:token')->setName('token.grant');
+    }
+);
