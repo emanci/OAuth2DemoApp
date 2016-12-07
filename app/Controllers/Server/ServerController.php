@@ -13,10 +13,9 @@ use OAuth2\GrantType\RefreshToken;
 use OAuth2\GrantType\UserCredentials;
 use OAuth2\Server as OAuth2Server;
 use OAuth2\HttpFoundationBridge\Response as BridgeResponse;
+use OAuth2\HttpFoundationBridge\Request as BridgeRequest;
 use OAuth2\Storage\Memory;
 use OAuth2\Storage\Pdo;
-use Slim\Http\Request;
-use Slim\Http\Response;
 
 /**
  * Authorization server.
@@ -24,6 +23,16 @@ use Slim\Http\Response;
  */
 class ServerController extends BaseController
 {
+    /**
+     * @var
+     */
+    protected $oauthRequest;
+
+    /**
+     * @var
+     */
+    protected $oauthResponse;
+
     /**
      * Connet OAuth2 server.
      *
@@ -72,6 +81,9 @@ class ServerController extends BaseController
         );
 
         $server->addStorage($this->getKeyStorage(), 'public_key');
+
+        $this->oauthRequest = BridgeRequest::createFromGlobals();
+        $this->oauthResponse = new BridgeResponse();
 
         return $server;
     }

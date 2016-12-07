@@ -7,37 +7,11 @@
 
 namespace App\Controllers\Server;
 
-use App\Controllers\BaseController;
-use Interop\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use OAuth2\Request as OAuth2Request;
-use OAuth2\Response as OAuth2Response;
 
 class AuthorizeController extends ServerController
 {
-    /**
-     * @var
-     */
-    protected $oauthRequest;
-
-    /**
-     * @var
-     */
-    protected $oauthResponse;
-
-    /**
-     * AuthorizeController constructor.
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-        $this->oauthRequest = OAuth2Request::createFromGlobals();
-        $this->oauthResponse = new OAuth2Response();
-    }
-
     /**
      * authorize.
      *
@@ -106,9 +80,9 @@ class AuthorizeController extends ServerController
         $authorized = (bool) $request->getParam('authorize');
 
         // call the oauth server and return the response
-        $serverResponse = $server->handleAuthorizeRequest($this->oauthRequest, $this->oauthResponse, $authorized);
+        $oauthResponse = $server->handleAuthorizeRequest($this->oauthRequest, $this->oauthResponse, $authorized);
 
-        $redirectUrl = $serverResponse->getHttpHeader('Location');
+        $redirectUrl = $oauthResponse->headers->get('location');
 
         return $response->withRedirect($redirectUrl);
     }

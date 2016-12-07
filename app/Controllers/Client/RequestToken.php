@@ -9,6 +9,7 @@ namespace App\Controllers\Client;
 
 use App\Controllers\BaseController;
 use GuzzleHttp\Client;
+use GuzzleHttp\json_decode;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -48,13 +49,14 @@ class RequestToken extends BaseController
             //$endpoint = $urlgen->generate($endpoint, array(), true);
         }
 
+        //$endpoint = 'http://local.oauth2.com/token/test';
         // config('demo_app.http_options')
         $http = new Client();
-        $response = $http->request('POST', $endpoint, ['form_params' => $data]);
-        $json = \GuzzleHttp\json_decode($response->getBody()->getContents());
+        $response2 = $http->request('POST', $endpoint, ['form_params' => $data]);
+        $json = json_decode($response2->getBody()->getContents(), true);
 
         if (isset($json['access_token'])) {
-            die('Successful!');
+            //die('Successful!');
             if ($showRefreshToken) {
                 return $this->render($response, 'client/show_refresh_token.twig', ['response' => $json]);
             }
@@ -66,5 +68,4 @@ class RequestToken extends BaseController
 
         return $this->render($response, 'client/failed_token_request.twig', ['response' => $json ? $json : $response]);
     }
-
 }

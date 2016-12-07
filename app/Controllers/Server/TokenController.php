@@ -7,44 +7,31 @@
 
 namespace App\Controllers\Server;
 
-use Interop\Container\ContainerInterface;
-use OAuth2\Request as OAuth2Request;
-use OAuth2\Response as OAuth2Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class TokenController extends ServerController
 {
-    /**
-     * @var
-     */
-    protected $oauthRequest;
-
-    /**
-     * @var
-     */
-    protected $oauthResponse;
-
-    /**
-     * AuthorizeController constructor.
-     *
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-        $this->oauthRequest = OAuth2Request::createFromGlobals();
-        $this->oauthResponse = new OAuth2Response();
-    }
-
     /**
      * Handle token request.
      *
      * @return OAuth2Response|\OAuth2\ResponseInterface
      */
-    public function token()
+    public function token(Request $request, Response $response, $args)
     {
         $server = $this->connect();
 
         // let the oauth2-server-php library do all the work!
-        return $server->handleTokenRequest($this->oauthRequest, $this->oauthResponse);
+        $oauthResponse = $server->handleTokenRequest($this->oauthRequest, $this->oauthResponse);
+        $content = \GuzzleHttp\json_decode($oauthResponse->getContent(), true);
+
+        return $response->withJson($content);
+    }
+
+    public function test(Request $request, Response $response, $args)
+    {
+        //file_put_contents('./900.log', ['data' => var_export($request->getParams(), true)]);
+
+        return $response->withJson(['aa' => 'test']);
     }
 }
