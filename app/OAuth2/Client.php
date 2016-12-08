@@ -42,7 +42,7 @@ class Client
         $query = http_build_query(
             [
                 'response_type' => 'code',
-                'client_id'     => config('demo_app.client_id'),
+                'client_id'     => 'demoapp2',
                 'redirect_uri'  => 'http://local.oauth2.com/oauth2/client/receive_authcode?show_refresh_token=1',
                 'state'         => session_id(),
             ]

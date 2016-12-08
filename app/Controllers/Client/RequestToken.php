@@ -38,8 +38,8 @@ class RequestToken extends BaseController
         $data = [
             'grant_type'    => 'authorization_code',
             'code'          => $code,
-            'client_id'     => config('demo_app.client_id'),
-            'client_secret' => config('demo_app.client_secret'),
+            'client_id'     => config('demo_app.client_id'),  // specified app
+            'client_secret' => config('demo_app.client_secret'), // specified app
             'redirect_uri'  => 'http://local.oauth2.com'.$authorizeRedirect,
         ];
 

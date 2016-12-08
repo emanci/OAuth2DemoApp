@@ -28,7 +28,7 @@ class AuthorizationCodeController extends BaseController
         if (!$code = $request->getParam('code')) {
             return $this->render(
                 $response,
-                '/client/failed/failed_authorization.twig',
+                '/client/authorization_code/failed_authorization.twig',
                 ['response' => $request->getParams()]
             );
         }
@@ -44,6 +44,10 @@ class AuthorizationCodeController extends BaseController
 
         $path = $this->container->router->pathFor('requestToken.request_token_with_authcode');
         $requestTokenUrl = $path.'?code='.$code;
+
+        if ($showRefreshToken = $request->getParam('show_refresh_token')) {
+            $requestTokenUrl .= '&show_refresh_token='.$showRefreshToken;
+        }
 
         return $this->render(
             $response,
