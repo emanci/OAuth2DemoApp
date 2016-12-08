@@ -37,7 +37,7 @@ class AuthorizationCodeController extends BaseController
         if ($request->getParam('state') !== session_id()) {
             return $this->render(
                 $response,
-                '/client/failed/failed_authorization.twig',
+                '/client/authorization_code/failed_authorization.twig',
                 ['response' => ['error_description' => 'Your session has expired.  Please try again.']]
             );
         }
@@ -47,7 +47,7 @@ class AuthorizationCodeController extends BaseController
 
         return $this->render(
             $response,
-            '/client/successful/show_authorization_code.twig',
+            '/client/authorization_code/show_authorization_code.twig',
             ['code' => $code, 'request_token_url' => $requestTokenUrl]
         );
     }

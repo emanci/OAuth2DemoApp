@@ -81,7 +81,6 @@ class AuthorizeController extends ServerController
 
         // call the oauth server and return the response
         $oauthResponse = $server->handleAuthorizeRequest($this->oauthRequest, $this->oauthResponse, $authorized);
-
         $redirectUrl = $oauthResponse->headers->get('location');
 
         return $response->withRedirect($redirectUrl);

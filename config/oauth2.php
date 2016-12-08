@@ -27,7 +27,7 @@ return [
         "client_secret"   => "demopass",
         "token_route"     => "http://local.oauth2.com/token/grant",
         "authorize_route" => "http://local.oauth2.com/oauth2/lockdin/authorize",
-        "resource_route"  => "http://local.oauth2.com/profile",
+        "resource_route"  => "http://local.oauth2.com/resource/access",
         "resource_method" => "POST",
         "resource_params" => [
             "debug" => true,

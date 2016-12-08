@@ -15,6 +15,15 @@ use Slim\Http\Response;
 
 class RequestToken extends BaseController
 {
+    /**
+     * Request token with authCode.
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param          $args
+     *
+     * @return mixed
+     */
     public function requestTokenWithAuthCode(Request $request, Response $response, $args)
     {
         $code = $request->getParam('code');
@@ -34,11 +43,6 @@ class RequestToken extends BaseController
             'redirect_uri'  => 'http://local.oauth2.com'.$authorizeRedirect,
         ];
 
-        //http://local.oauth2.com/oauth2/client/receive_authcode
-        /*echo "<pre>";
-        print_r($data);
-        die();*/
-
         // determine the token endpoint to call based on our config
         $endpoint = config('demo_app.token_route');
         if (0 !== strpos($endpoint, 'http')) {
@@ -49,23 +53,23 @@ class RequestToken extends BaseController
             //$endpoint = $urlgen->generate($endpoint, array(), true);
         }
 
-        //$endpoint = 'http://local.oauth2.com/token/test';
-        // config('demo_app.http_options')
-        $http = new Client();
-        $response2 = $http->request('POST', $endpoint, ['form_params' => $data]);
-        $json = json_decode($response2->getBody()->getContents(), true);
+        $http = new Client(config('demo_app.http_options'));
+        $tokenResponse = $http->request('POST', $endpoint, ['form_params' => $data]);
+        $json = json_decode($tokenResponse->getBody()->getContents(), true);
 
         if (isset($json['access_token'])) {
-            //die('Successful!');
+            $path = $this->container->router->pathFor('requestResource.request_resource');
+            $requestResourceUrl = $path.'?token='.$json['access_token'];
+
+            $data = ['response' => $json, 'request_resource_url' => $requestResourceUrl];
+
             if ($showRefreshToken) {
-                return $this->render($response, 'client/show_refresh_token.twig', ['response' => $json]);
+                return $this->render($response, 'client/token/show_refresh_token.twig', $data);
             }
 
-            return $this->render($response, 'client/show_access_token.twig', ['response' => $json]);
+            return $this->render($response, 'client/token/show_access_token.twig', $data);
         }
 
-        die('Failed');
-
-        return $this->render($response, 'client/failed_token_request.twig', ['response' => $json ? $json : $response]);
+        return $this->render($response, 'client/token/failed_token_request.twig', ['response' => $json ?: $response]);
     }
 }

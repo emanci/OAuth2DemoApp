@@ -77,13 +77,21 @@ $app->group(
             '/client/request_token/authorization_code',
             'App\Controllers\Client\RequestToken:requestTokenWithAuthCode'
         )->setName('requestToken.request_token_with_authcode');
+        // Request resource
+        $app->get('/client/request_resource', 'App\Controllers\Client\RequestResource:requestResource')->setName(
+            'requestResource.request_resource'
+        );
     }
 );
 $app->group(
     '/token',
     function () use ($app) {
         $app->post('/grant', 'App\Controllers\Server\TokenController:token')->setName('token.grant');
-        $app->post('/test', 'App\Controllers\Server\TokenController:test')->setName('token.test');
-
+    }
+);
+$app->group(
+    '/resource',
+    function () use ($app) {
+            $app->get('/access', 'App\Controllers\Server\ResourceController:resource')->setName('resource.access');
     }
 );

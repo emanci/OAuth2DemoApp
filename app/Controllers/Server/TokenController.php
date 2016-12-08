@@ -9,6 +9,7 @@ namespace App\Controllers\Server;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use GuzzleHttp\json_decode;
 
 class TokenController extends ServerController
 {
@@ -23,15 +24,8 @@ class TokenController extends ServerController
 
         // let the oauth2-server-php library do all the work!
         $oauthResponse = $server->handleTokenRequest($this->oauthRequest, $this->oauthResponse);
-        $content = \GuzzleHttp\json_decode($oauthResponse->getContent(), true);
+        $content = json_decode($oauthResponse->getContent(), true);
 
         return $response->withJson($content);
-    }
-
-    public function test(Request $request, Response $response, $args)
-    {
-        //file_put_contents('./900.log', ['data' => var_export($request->getParams(), true)]);
-
-        return $response->withJson(['aa' => 'test']);
     }
 }
