@@ -6,7 +6,7 @@
  */
 return [
     'debug' => false,
-    'log' => [
+    'log'   => [
         'type' => 'date',
         'file' => '',
     ],

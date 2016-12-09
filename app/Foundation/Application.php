@@ -7,14 +7,12 @@
 
 namespace App\Foundation;
 
-use App\Controllers\UserController;
 use App\Facades\MailFacade;
 use App\Facades\SomeServiceFacade;
 use App\Foundation\Twig\JsonStringifyExtension;
 use App\Services\MailService;
 use DavidePastore\Slim\Config\Config;
-use GuzzleHttp\Client;
-use Interop\Container\ContainerInterface;
+use ReflectionClass;
 use Slim\App;
 use App\Models\User;
 use Slim\Views\Twig;
@@ -50,6 +48,7 @@ class Application extends Container
         parent::__construct();
         session_start();
         $this->initContainer();
+        $this->registerDependencies();
         $this->setFacade();
         $this->registerAlias();
     }
@@ -130,13 +129,40 @@ class Application extends Container
             return new MailService();
         };
 
-        $container[UserController::class] = function ($container) {
-            return new UserController($container, new MailService());
-        };
-
         self::$app->add($container->get('config'));
         self::$app->add(new AuthMiddleware($container));
         self::$app->add(new RoleMiddleware($container));
+    }
+
+    /**
+     * register controller dependencies.
+     *
+     * @return void
+     */
+    protected function registerDependencies()
+    {
+        $container = self::$app->getContainer();
+        $controllersConf = require APP_PATH.'/config/controllers.php';
+        $controllers = $controllersConf['controllers'];
+
+        foreach ($controllers as $controller) {
+            $container[$controller] = function ($container) use ($controller) {
+                $reflector = new ReflectionClass($controller);
+                $constructor = $reflector->getConstructor();
+                $parameters = $constructor->getParameters();
+                array_shift($parameters);
+
+                $depsInstances = [];
+                foreach ($parameters as $value) {
+                    $reflectionClass = $value->getClass();
+                    $class = $reflectionClass->getName();
+                    $depsInstances[] = new $class();
+                }
+                array_unshift($depsInstances, $container);
+
+                return $reflector->newInstanceArgs($depsInstances);
+            };
+        }
     }
 
     /**
