@@ -151,18 +151,32 @@ class Application extends Container
                 $constructor = $reflector->getConstructor();
                 $parameters = $constructor->getParameters();
                 array_shift($parameters);
-
-                $depsInstances = [];
-                foreach ($parameters as $value) {
-                    $reflectionClass = $value->getClass();
-                    $class = $reflectionClass->getName();
-                    $depsInstances[] = new $class();
-                }
+                $depsInstances = $this->getDepsInstances($parameters);
                 array_unshift($depsInstances, $container);
 
                 return $reflector->newInstanceArgs($depsInstances);
             };
         }
+    }
+
+    /**
+     * Get all dependency instance.
+     *
+     * @param array $parameters
+     *
+     * @return array
+     */
+    protected function getDepsInstances(array $parameters)
+    {
+        $depsInstances = [];
+
+        foreach ($parameters as $value) {
+            $reflectionClass = $value->getClass();
+            $class = $reflectionClass->getName();
+            $depsInstances[] = new $class();
+        }
+
+        return $depsInstances;
     }
 
     /**

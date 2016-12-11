@@ -34,5 +34,11 @@ class UserController extends BaseController
         print_r($this->repository->all());
         print_r(get_class_methods($this->mailService));
         $this->mailService->send();
+
+        /*once(
+            function () {
+                return str_random(10);
+            }
+        );*/
     }
 }
