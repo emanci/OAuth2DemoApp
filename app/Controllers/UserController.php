@@ -35,6 +35,18 @@ class UserController extends BaseController
         print_r(get_class_methods($this->mailService));
         $this->mailService->send();
 
+        $data = array_filter(
+            [
+                'name'    => 'emanci',
+                'address' => '',
+            ]
+        );
+
+        echo http_build_query($data);
+
+        echo "<pre>";
+        print_r($data);
+
         /*once(
             function () {
                 return str_random(10);

@@ -114,6 +114,7 @@ class Application extends Container
                 )
             );
             $view->addExtension(new JsonStringifyExtension());
+            $view->addExtension();
             if ($container->has('flash')) {
                 $view->getEnvironment()->addGlobal('flash', $container->flash);
             }
