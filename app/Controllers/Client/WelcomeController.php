@@ -27,13 +27,11 @@ class WelcomeController extends BaseController
         $authorizeUrl = $authorizeClient->authorize();
         $refreshAuthorizeUrl = $authorizeClient->refreshAuthorize();
 
-        $this->render(
-            $response,
-            '/client/index.twig',
-            [
-                'authorize_url'         => $authorizeUrl,
-                'refresh_authorize_url' => $refreshAuthorizeUrl,
-            ]
-        );
+        $data = [
+            'authorize_url'         => $authorizeUrl,
+            'refresh_authorize_url' => $refreshAuthorizeUrl,
+        ];
+
+        $this->render($response, '/client/index.twig', $data);
     }
 }

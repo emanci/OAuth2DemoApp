@@ -12,6 +12,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\json_decode;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use InvalidArgumentException;
 
 class RequestToken extends BaseController
 {
@@ -46,11 +47,7 @@ class RequestToken extends BaseController
         // determine the token endpoint to call based on our config
         $endpoint = config('demo_app.token_route');
         if (0 !== strpos($endpoint, 'http')) {
-            // if PHP's built in web server is being used, we cannot continue
-            //$this->testForBuiltInWebServer();
-
-            // generate the route
-            //$endpoint = $urlgen->generate($endpoint, array(), true);
+            throw new InvalidArgumentException('Invalid URI: http|https scheme required');
         }
 
         $http = new Client(config('demo_app.http_options'));

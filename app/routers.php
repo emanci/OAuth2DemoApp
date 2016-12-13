@@ -5,6 +5,7 @@
  * Date: 2016/11/2.
  */
 $app->get('/', 'App\Controllers\HomeController:index')->setName('home');
+
 /*$app->get(
     '/',
     function () {
@@ -92,6 +93,20 @@ $app->group(
 $app->group(
     '/resource',
     function () use ($app) {
-            $app->get('/access', 'App\Controllers\Server\ResourceController:resource')->setName('resource.access');
+        $app->get('/access', 'App\Controllers\Server\ResourceController:resource')->setName('resource.access');
     }
 );
+
+
+// WeUI
+$app->group(
+    '/woauth2',
+    function () use ($app) {
+        $app->get('/', 'App\Controllers\WeUIController:index')->setName('weui.index');
+    }
+);
+
+
+
+
+

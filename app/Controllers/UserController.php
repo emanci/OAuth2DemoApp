@@ -52,5 +52,7 @@ class UserController extends BaseController
                 return str_random(10);
             }
         );*/
+
+        print_r(get_class_methods($this->container->router));
     }
 }

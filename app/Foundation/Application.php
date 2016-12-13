@@ -23,6 +23,8 @@ use App\Middleware\AuthMiddleware;
 use App\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Capsule\Manager;
+use Symfony\Bridge\Twig\Extension\RoutingExtension;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class Application extends Container
 {
@@ -102,19 +104,10 @@ class Application extends Container
 
         $container['view'] = function ($container) {
             $cache = false;
-            $view = new Twig(
-                APP_PATH.'/resources/views/', [
-                    'cache' => $cache,
-                ]
-            );
-            $view->addExtension(
-                new TwigExtension(
-                    $container->router,
-                    $container->request->getUri()
-                )
-            );
+            $view = new Twig(APP_PATH.'/resources/views/', ['cache' => $cache,]);
+            $view->addExtension(new TwigExtension($container->router, $container->request->getUri()));
             $view->addExtension(new JsonStringifyExtension());
-            $view->addExtension();
+
             if ($container->has('flash')) {
                 $view->getEnvironment()->addGlobal('flash', $container->flash);
             }
