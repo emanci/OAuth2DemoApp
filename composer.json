@@ -20,7 +20,6 @@
     "slim/twig-view": "^2.1",
     "slim/csrf": "^0.6.0",
     "slim/flash": "^0.1.0",
-    "symfony/twig-bridge": "2.1.*",
     "davidepastore/slim-config": "*",
     "illuminate/database": "^5.2",
     "illuminate/support": "*",
