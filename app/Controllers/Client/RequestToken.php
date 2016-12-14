@@ -30,18 +30,17 @@ class RequestToken extends BaseController
         $code = $request->getParam('code');
         $showRefreshToken = $request->getParam('show_refresh_token');
 
-        $redirectUriParams = array_filter(['show_refresh_token' => $showRefreshToken]);
-
-        $path = $this->container->get('router')->pathFor('authorizationCode.receive');
-        $authorizeRedirect = $redirectUriParams ? $path.'?'.http_build_query($redirectUriParams) : $path;
+        //$redirectUriParams = array_filter(['show_refresh_token' => $showRefreshToken]);
+        $receiveAuthorizationCodeRoute = $this->container->get('router')->pathFor('authorizationCode.receive');
+        //$authorizeRedirect = $redirectUriParams ? $path.'?'.http_build_query($redirectUriParams) : $path;
 
         // exchange authorization code for access token
         $data = [
             'grant_type'    => 'authorization_code',
             'code'          => $code,
-            'client_id'     => config('demo_app.client_id'),  // specified app
-            'client_secret' => config('demo_app.client_secret'), // specified app
-            'redirect_uri'  => 'http://local.oauth2.com'.$authorizeRedirect,
+            'client_id'     => config('demo_app.client_id'),
+            'client_secret' => config('demo_app.client_secret'),
+            'redirect_uri'  => 'http://local.oauth2.com'.$receiveAuthorizationCodeRoute,
         ];
 
         // determine the token endpoint to call based on our config
@@ -55,16 +54,100 @@ class RequestToken extends BaseController
         $json = json_decode($tokenResponse->getBody()->getContents(), true);
 
         if (isset($json['access_token'])) {
-            $path = $this->container->router->pathFor('requestResource.request_resource');
-            $requestResourceUrl = $path.'?token='.$json['access_token'];
-
-            $data = ['response' => $json, 'request_resource_url' => $requestResourceUrl];
+            $data = ['response' => $json];
+            $router = $this->container->router;
 
             if ($showRefreshToken) {
+                $requestRefreshTokenRoute = $router->pathFor('requestToken.request_token_with_refresh_token');
+                $data['request_refresh_token_url'] = $requestRefreshTokenRoute.'?refresh_token='.$json['refresh_token'];
+
                 return $this->render($response, 'client/token/show_refresh_token.twig', $data);
             }
 
+            $requestResourceRoute = $router->pathFor('requestResource.request_resource');
+            $data['request_resource_url'] = $requestResourceRoute.'?token='.$json['access_token'];
+
             return $this->render($response, 'client/token/show_access_token.twig', $data);
+        }
+
+        return $this->render($response, 'client/token/failed_token_request.twig', ['response' => $json ?: $response]);
+    }
+
+    /**
+     * Request token with refresh token.
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param          $args
+     *
+     * @return mixed
+     */
+    public function requestTokenWithRefreshToken(Request $request, Response $response, $args)
+    {
+        $refreshToken = $request->getParam('refresh_token');
+
+        $query = array(
+            'grant_type'    => 'refresh_token',
+            'client_id'     => config('demo_app.client_id'),
+            'client_secret' => config('demo_app.client_secret'),
+            'refresh_token' => $refreshToken,
+        );
+
+        $grantRoute = config('demo_app.token_route');
+
+        if (0 !== strpos($grantRoute, 'http')) {
+            throw new InvalidArgumentException('Invalid URI: http|https scheme required');
+        }
+
+        $endpoint = $grantRoute;
+
+        $http = new Client(config('demo_app.http_options'));
+
+        $tokenResponse = $http->request('POST', $endpoint, ['form_params' => $query]);
+        $json = json_decode($tokenResponse->getBody()->getContents(), true);
+
+        if (isset($json['access_token'])) {
+            return $this->render($response, 'client/token/show_access_token.twig', ['response' => $json]);
+        }
+
+        return $this->render($response, 'client/token/failed_token_request.twig', ['response' => $json ?: $response]);
+    }
+
+    /**
+     * Request token with user credentials.
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param          $args
+     *
+     * @return mixed
+     */
+    public function requestTokenWithUserCredentials(Request $request, Response $response, $args)
+    {
+        $username = $request->getParam('username');
+        $password = $request->getParam('password');
+
+        // exchange user credentials for access token
+        $query = array(
+            'grant_type'    => 'password',
+            'client_id'     => config('demo_app.client_id'),
+            'client_secret' => config('demo_app.client_secret'),
+            'username'      => $username,
+            'password'      => $password,
+        );
+
+        $endpoint = config('demo_app.token_route');
+        if (0 !== strpos($endpoint, 'http')) {
+            throw new InvalidArgumentException('Invalid URI: http|https scheme required');
+        }
+
+        $http = new Client(config('demo_app.http_options'));
+
+        $tokenResponse = $http->request('POST', $endpoint, ['form_params' => $query]);
+        $json = json_decode($tokenResponse->getBody()->getContents(), true);
+
+        if (isset($json['access_token'])) {
+            return $this->render($response, 'client/token/show_access_token.twig', ['response' => $json]);
         }
 
         return $this->render($response, 'client/token/failed_token_request.twig', ['response' => $json ?: $response]);

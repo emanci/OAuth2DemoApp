@@ -50,4 +50,37 @@ class Client
 
         return $authorizeRoute.'?'.$query;
     }
+
+    /**
+     * Make an implicit authorize url.
+     *
+     * @return string
+     */
+    public function implicitAuthorize()
+    {
+        $authorizeRoute = config('demo_app.authorize_route');
+
+        $query = http_build_query(
+            [
+                'response_type' => 'token',
+                'client_id'     => 'demoapp2',
+                'redirect_uri'  => 'http://local.oauth2.com/oauth2/client/receive_implicit_token',
+                'state'         => session_id(),
+            ]
+        );
+
+        return $authorizeRoute.'?'.$query;
+    }
+
+    public function userCredentials()
+    {
+        $authorizeRoute = config('demo_app.authorize_route');
+
+
+        /**
+         * url('request_token_with_usercredentials') }}
+         * ?username={{ app.parameters.user_credentials[0] }}
+         * &password={{ app.parameters.user_credentials[1]
+         */
+    }
 }

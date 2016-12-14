@@ -23,13 +23,18 @@ class WelcomeController extends BaseController
      */
     public function index(Request $request, Response $response, $args)
     {
+        // http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html
         $authorizeClient = new Client();
         $authorizeUrl = $authorizeClient->authorize();
         $refreshAuthorizeUrl = $authorizeClient->refreshAuthorize();
+        $implicitAuthorizeUrl = $authorizeClient->implicitAuthorize();
+        $userCredentialsUrl = $authorizeClient->userCredentials();
 
         $data = [
-            'authorize_url'         => $authorizeUrl,
-            'refresh_authorize_url' => $refreshAuthorizeUrl,
+            'authorize_url'          => $authorizeUrl,
+            'refresh_authorize_url'  => $refreshAuthorizeUrl,
+            'implicit_authorize_url' => $implicitAuthorizeUrl,
+            'user_credentials_url'   => $userCredentialsUrl,
         ];
 
         $this->render($response, '/client/index.twig', $data);
