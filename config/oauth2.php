@@ -23,21 +23,22 @@ return [
         ],
     ],
     "demo_app" => [
-        "client_id"       => "demoapp",
-        "client_secret"   => "demopass",
-        "token_route"     => "http://local.oauth2.com/token/grant",
-        "authorize_route" => "http://local.oauth2.com/oauth2/lockdin/authorize",
-        "resource_route"  => "http://local.oauth2.com/resource/access",
-        "resource_method" => "POST",
-        "resource_params" => [
+        "client_id"        => "demoapp",
+        "client_secret"    => "demopass",
+        "token_route"      => "http://local.oauth2.com/token/grant",
+        "authorize_route"  => "http://local.oauth2.com/oauth2/lockdin/authorize",
+        "resource_route"   => "http://local.oauth2.com/resource/access",
+        "resource_method"  => "POST",
+        "resource_params"  => [
             "debug" => true,
         ],
-        "curl_options"    => [
+        "curl_options"     => [
             "http_port" => 443,
             "verifyssl" => false,
         ],
-        "http_options"    => [
+        "http_options"     => [
             //"exceptions" => false,
         ],
+        'user_credentials' => ['emanci', '12345qwert'],
     ],
 ];
