@@ -27,21 +27,14 @@ class AuthorizeController extends ServerController
         $server = $this->connect();
 
         if (!$server->validateAuthorizeRequest($this->oauthRequest, $this->oauthResponse)) {
-            $serverResponse = $server->getResponse();
 
-            $statusCode = $serverResponse->getStatusCode();
-            $errors = json_decode($serverResponse->getContent(), true);
+            $errors = json_decode($server->getResponse()->getContent(), true);
 
-            return $response->withJson(
-                [
-                    'code'              => $statusCode,
-                    'error'             => $errors['error'],
-                    'error_description' => $errors['error_description'],
-                ]
-            );
+            return $response->withJson($errors);
         }
 
         $path = $this->container->get('router')->pathFor('authorize.authorize_post');
+
         $responseType = $request->getParam('response_type');
         $clientId = $request->getParam('client_id');
         $redirectUri = $request->getParam('redirect_uri');
@@ -65,11 +58,11 @@ class AuthorizeController extends ServerController
         $query = http_build_query($params);
         $authorizePost = $path.'?'.$query;
 
-        $data = array(
+        $data = [
             'client_id'      => $clientId,
             'response_type'  => $responseType,
             'authorize_post' => $authorizePost,
-        );
+        ];
 
         return $this->render($response, '/server/authorize.twig', $data);
     }
@@ -92,7 +85,6 @@ class AuthorizeController extends ServerController
         // call the oauth server and return the response
         $oauthResponse = $server->handleAuthorizeRequest($this->oauthRequest, $this->oauthResponse, $authorized);
 
-        // 异常处理
         $statusCode = $oauthResponse->getStatusCode();
         if ($statusCode != 302) {
             $errors = json_decode($oauthResponse->getContent(), true);

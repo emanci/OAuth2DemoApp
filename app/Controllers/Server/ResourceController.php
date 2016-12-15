@@ -28,26 +28,17 @@ class ResourceController extends ServerController
         $server = $this->connect();
 
         if (!$server->verifyResourceRequest($this->oauthRequest, $this->oauthResponse)) {
-            $serverResponse = $server->getResponse();
+            $errors = json_decode($server->getResponse()->getContent(), true);
 
-            $statusCode = $serverResponse->getStatusCode();
-            $errors = json_decode($serverResponse->getContent(), true);
-
-            $retResponse = [
-                'code'              => $statusCode,
-                'error'             => $errors['error'],
-                'error_description' => $errors['error_description'],
-            ];
-
-            return $response->withJson($retResponse);
-        } else {
-            // return a fake API response - not that exciting
-            // @TODO return something more valuable, like the name of the logged in user
-            $apiResponse = [
-                'friends' => ['john', 'matt', 'jane'],
-            ];
-
-            return $response->withJson($apiResponse);
+            return $response->withJson($errors);
         }
+
+        // return a fake API response - not that exciting
+        // @TODO return something more valuable, like the name of the logged in user
+        $apiResponse = [
+            'friends' => ['john', 'matt', 'jane'],
+        ];
+
+        return $response->withJson($apiResponse);
     }
 }

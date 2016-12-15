@@ -24,6 +24,7 @@ class TokenController extends ServerController
 
         // let the oauth2-server-php library do all the work!
         $oauthResponse = $server->handleTokenRequest($this->oauthRequest, $this->oauthResponse);
+
         $content = json_decode($oauthResponse->getContent(), true);
 
         return $response->withJson($content);

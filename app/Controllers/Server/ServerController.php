@@ -55,28 +55,28 @@ class ServerController extends BaseController
         $password = 'root';
 
         // create PDO-based sqlite storage
-        $storage = new Pdo(array('dsn' => $dsn, 'username' => $username, 'password' => $password));
+        $storage = new Pdo(['dsn' => $dsn, 'username' => $username, 'password' => $password]);
 
         // create array of supported grant types
-        $grantTypes = array(
+        $grantTypes = [
             'authorization_code' => new AuthorizationCode($storage),
             'user_credentials'   => new UserCredentials($storage),
             'refresh_token'      => new RefreshToken(
-                $storage, array(
+                $storage, [
                     'always_issue_new_refresh_token' => true,
-                )
+                ]
             ),
-        );
+        ];
 
         // instantiate the oauth server
         $server = new OAuth2Server(
             $storage,
-            array(
+            [
                 'enforce_state'      => true,
                 'allow_implicit'     => true,
                 'use_openid_connect' => true,
                 'issuer'             => $_SERVER['HTTP_HOST'],
-            ),
+            ],
             $grantTypes
         );
 
@@ -100,12 +100,12 @@ class ServerController extends BaseController
 
         // create storage
         $keyStorage = new Memory(
-            array(
-                'keys' => array(
+            [
+                'keys' => [
                     'public_key'  => $publicKey,
                     'private_key' => $privateKey,
-                ),
-            )
+                ],
+            ]
         );
 
         return $keyStorage;
