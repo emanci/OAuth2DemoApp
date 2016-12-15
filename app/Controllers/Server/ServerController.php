@@ -8,7 +8,7 @@
 namespace App\Controllers\Server;
 
 use App\Controllers\BaseController;
-use OAuth2\GrantType\AuthorizationCode;
+use OAuth2\OpenID\GrantType\AuthorizationCode;
 use OAuth2\GrantType\RefreshToken;
 use OAuth2\GrantType\UserCredentials;
 use OAuth2\Server as OAuth2Server;
@@ -74,7 +74,7 @@ class ServerController extends BaseController
             array(
                 'enforce_state'      => true,
                 'allow_implicit'     => true,
-                'use_openid_connect' => false,
+                'use_openid_connect' => true,
                 'issuer'             => $_SERVER['HTTP_HOST'],
             ),
             $grantTypes

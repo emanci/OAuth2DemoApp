@@ -25,11 +25,9 @@ class ImplicitTokenController extends BaseController
     public function receive(Request $request, Response $response, $args)
     {
         if ($request->getParam('error')) {
-            return $this->render(
-                $response,
-                'client/token/failed_token_request.twig',
-                ['response' => $request->getParams()]
-            );
+            $params = $request->getParams();
+
+            return $this->render($response, 'client/token/failed_token_request.twig', ['response' => $params]);
         }
 
         // nothing to do - implicit tokens are in the URL Fragment, so it must be done by the browser

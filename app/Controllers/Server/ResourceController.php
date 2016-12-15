@@ -31,7 +31,7 @@ class ResourceController extends ServerController
             $serverResponse = $server->getResponse();
 
             $statusCode = $serverResponse->getStatusCode();
-            $errors = $serverResponse->getParameters();
+            $errors = json_decode($serverResponse->getContent(), true);
 
             $retResponse = [
                 'code'              => $statusCode,

@@ -63,7 +63,7 @@ class Client
         $query = http_build_query(
             [
                 'response_type' => 'token',
-                'client_id'     => 'demoapp2',
+                'client_id'     => 'demoapp3',
                 'redirect_uri'  => 'http://local.oauth2.com/oauth2/client/receive_implicit_token',
                 'state'         => session_id(),
             ]
@@ -72,15 +72,78 @@ class Client
         return $authorizeRoute.'?'.$query;
     }
 
+    /**
+     * Make a user credentials.
+     *
+     * @return string
+     */
     public function userCredentials()
+    {
+        $authorizeRoute = '/oauth2/client/request_token/user_credentials';
+        $userCredentials = config('demo_app.user_credentials');
+
+        $query = http_build_query(
+            [
+                'username' => $userCredentials[0],
+                'password' => $userCredentials[1],
+            ]
+        );
+
+        return $authorizeRoute.'?'.$query;
+    }
+
+    /**
+     * Make a url array.
+     *
+     * @return array
+     */
+    public function openidConnect()
     {
         $authorizeRoute = config('demo_app.authorize_route');
 
+        $query = http_build_query(
+            [
+                'response_type' => 'code',
+                'client_id'     => config('demo_app.client_id'),
+                'redirect_uri'  => 'http://local.oauth2.com/oauth2/client/receive_authcode',
+                'scope'         => 'openid',
+                'state'         => session_id(),
+                'nonce'         => rand(0, 9999),
+            ]
+        );
 
-        /**
-         * url('request_token_with_usercredentials') }}
-         * ?username={{ app.parameters.user_credentials[0] }}
-         * &password={{ app.parameters.user_credentials[1]
-         */
+        $authorizationCodeWithIdTokenQuery = http_build_query(
+            [
+                'response_type' => 'code id_token',
+                'client_id'     => config('demo_app.client_id'),
+                'redirect_uri'  => 'http://local.oauth2.com/oauth2/client/receive_authcode',
+                'scope'         => 'openid',
+                'state'         => session_id(),
+                'nonce'         => rand(0, 9999),
+            ]
+        );
+
+        $implicitQuery = http_build_query(
+            [
+                'response_type' => 'id_token token',
+                'client_id'     => 'demoapp3',
+                'redirect_uri'  => 'http://local.oauth2.com/oauth2/client/receive_implicit_token',
+                'scope'         => 'openid',
+                'state'         => session_id(),
+                'nonce'         => rand(0, 9999),
+            ]
+        );
+
+        $authorizationCodeUrl = $authorizeRoute.'?'.$query;
+        $authorizationCodeWithIdTokenUrl = $authorizeRoute.'?'.$authorizationCodeWithIdTokenQuery;
+        $implicitUrl = $authorizeRoute.'?'.$implicitQuery;
+
+        $openidConnect = [
+            'authorization_code_url'               => $authorizationCodeUrl,
+            'authorization_code_with_id_token_url' => $authorizationCodeWithIdTokenUrl,
+            'implicit_url'                         => $implicitUrl,
+        ];
+
+        return $openidConnect;
     }
 }

@@ -30,17 +30,21 @@ class RequestToken extends BaseController
         $code = $request->getParam('code');
         $showRefreshToken = $request->getParam('show_refresh_token');
 
-        //$redirectUriParams = array_filter(['show_refresh_token' => $showRefreshToken]);
+        $redirectUriParams = array_filter(['show_refresh_token' => $showRefreshToken]);
         $receiveAuthorizationCodeRoute = $this->container->get('router')->pathFor('authorizationCode.receive');
-        //$authorizeRedirect = $redirectUriParams ? $path.'?'.http_build_query($redirectUriParams) : $path;
+        $authorizeRedirect = $redirectUriParams
+            ? $receiveAuthorizationCodeRoute.'?'.http_build_query($redirectUriParams)
+            : $receiveAuthorizationCodeRoute;
+
+        $clientId = $showRefreshToken ? 'demoapp2' : config('demo_app.client_id');
 
         // exchange authorization code for access token
         $data = [
             'grant_type'    => 'authorization_code',
             'code'          => $code,
-            'client_id'     => config('demo_app.client_id'),
+            'client_id'     => $clientId,
             'client_secret' => config('demo_app.client_secret'),
-            'redirect_uri'  => 'http://local.oauth2.com'.$receiveAuthorizationCodeRoute,
+            'redirect_uri'  => 'http://local.oauth2.com'.$authorizeRedirect,
         ];
 
         // determine the token endpoint to call based on our config
@@ -70,7 +74,9 @@ class RequestToken extends BaseController
             return $this->render($response, 'client/token/show_access_token.twig', $data);
         }
 
-        return $this->render($response, 'client/token/failed_token_request.twig', ['response' => $json ?: $response]);
+        $data = ['response' => $json ?: $tokenResponse];
+
+        return $this->render($response, 'client/token/failed_token_request.twig', $data);
     }
 
     /**
@@ -88,7 +94,7 @@ class RequestToken extends BaseController
 
         $query = array(
             'grant_type'    => 'refresh_token',
-            'client_id'     => config('demo_app.client_id'),
+            'client_id'     => 'demoapp2',
             'client_secret' => config('demo_app.client_secret'),
             'refresh_token' => $refreshToken,
         );
@@ -106,11 +112,18 @@ class RequestToken extends BaseController
         $tokenResponse = $http->request('POST', $endpoint, ['form_params' => $query]);
         $json = json_decode($tokenResponse->getBody()->getContents(), true);
 
+        $requestResourceRoute = $this->container->router->pathFor('requestResource.request_resource');
+        $requestResourceUrl = $requestResourceRoute.'?token='.$json['access_token'];
+
+        $data = ['response' => $json, 'request_resource_url' => $requestResourceUrl];
+
         if (isset($json['access_token'])) {
-            return $this->render($response, 'client/token/show_access_token.twig', ['response' => $json]);
+            return $this->render($response, 'client/token/show_access_token.twig', $data);
         }
 
-        return $this->render($response, 'client/token/failed_token_request.twig', ['response' => $json ?: $response]);
+        $data = ['response' => $json ?: $tokenResponse];
+
+        return $this->render($response, 'client/token/failed_token_request.twig', $data);
     }
 
     /**
@@ -147,9 +160,16 @@ class RequestToken extends BaseController
         $json = json_decode($tokenResponse->getBody()->getContents(), true);
 
         if (isset($json['access_token'])) {
-            return $this->render($response, 'client/token/show_access_token.twig', ['response' => $json]);
+            $requestResourceRoute = $this->container->router->pathFor('requestResource.request_resource');
+            $requestResourceUrl = $requestResourceRoute.'?token='.$json['access_token'];
+
+            $data = ['response' => $json, 'request_resource_url' => $requestResourceUrl];
+
+            return $this->render($response, 'client/token/show_access_token.twig', $data);
         }
 
-        return $this->render($response, 'client/token/failed_token_request.twig', ['response' => $json ?: $response]);
+        $data = ['response' => $json ?: $tokenResponse];
+
+        return $this->render($response, 'client/token/failed_token_request.twig', $data);
     }
 }

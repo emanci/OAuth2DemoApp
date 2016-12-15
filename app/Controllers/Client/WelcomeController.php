@@ -29,12 +29,14 @@ class WelcomeController extends BaseController
         $refreshAuthorizeUrl = $authorizeClient->refreshAuthorize();
         $implicitAuthorizeUrl = $authorizeClient->implicitAuthorize();
         $userCredentialsUrl = $authorizeClient->userCredentials();
+        $openidConnect = $authorizeClient->openidConnect();
 
         $data = [
             'authorize_url'          => $authorizeUrl,
             'refresh_authorize_url'  => $refreshAuthorizeUrl,
             'implicit_authorize_url' => $implicitAuthorizeUrl,
             'user_credentials_url'   => $userCredentialsUrl,
+            'openid_connect'         => $openidConnect,
         ];
 
         $this->render($response, '/client/index.twig', $data);

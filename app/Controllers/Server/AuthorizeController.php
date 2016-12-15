@@ -9,6 +9,7 @@ namespace App\Controllers\Server;
 
 use Slim\Http\Request;
 use Slim\Http\Response;
+use GuzzleHttp\json_decode;
 
 class AuthorizeController extends ServerController
 {
@@ -29,7 +30,7 @@ class AuthorizeController extends ServerController
             $serverResponse = $server->getResponse();
 
             $statusCode = $serverResponse->getStatusCode();
-            $errors = $serverResponse->getParameters();
+            $errors = json_decode($serverResponse->getContent(), true);
 
             return $response->withJson(
                 [
@@ -45,12 +46,21 @@ class AuthorizeController extends ServerController
         $clientId = $request->getParam('client_id');
         $redirectUri = $request->getParam('redirect_uri');
         $state = $request->getParam('state');
+
         $params = [
             'client_id'     => $clientId,
             'redirect_uri'  => $redirectUri,
             'response_type' => $responseType,
             'state'         => $state,
         ];
+
+        if ($scope = $request->getParam('scope')) {
+            $params['scope'] = $scope;
+        }
+
+        if ($nonce = $request->getParam('nonce')) {
+            $params['nonce'] = $nonce;
+        }
 
         $query = http_build_query($params);
         $authorizePost = $path.'?'.$query;
@@ -81,6 +91,15 @@ class AuthorizeController extends ServerController
 
         // call the oauth server and return the response
         $oauthResponse = $server->handleAuthorizeRequest($this->oauthRequest, $this->oauthResponse, $authorized);
+
+        // 异常处理
+        $statusCode = $oauthResponse->getStatusCode();
+        if ($statusCode != 302) {
+            $errors = json_decode($oauthResponse->getContent(), true);
+
+            return $response->withJson($errors);
+        }
+
         $redirectUrl = $oauthResponse->headers->get('location');
 
         return $response->withRedirect($redirectUrl);

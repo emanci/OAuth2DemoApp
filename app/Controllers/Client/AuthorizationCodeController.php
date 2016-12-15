@@ -24,7 +24,6 @@ class AuthorizationCodeController extends BaseController
      */
     public function receive(Request $request, Response $response, $args)
     {
-        // the user denied the authorization request
         if (!$code = $request->getParam('code')) {
             return $this->render(
                 $response,
