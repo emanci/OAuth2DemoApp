@@ -38,10 +38,11 @@ class RequestResource extends BaseController
         $retResponse = $json ?: $resourceResponse;
         $resourceUri = $endpoint.'?access_token='.$token;
 
-        return $this->render(
-            $response,
-            'client/resource/show_resource.twig',
-            ['response' => $retResponse, 'resource_uri' => $resourceUri]
-        );
+        $data = [
+            'response'     => $retResponse,
+            'resource_uri' => $resourceUri,
+        ];
+
+        return $this->render($response, 'client/resource/show_resource.twig', $data);
     }
 }

@@ -25,20 +25,18 @@ class AuthorizationCodeController extends BaseController
     public function receive(Request $request, Response $response, $args)
     {
         if (!$code = $request->getParam('code')) {
-            return $this->render(
-                $response,
-                '/client/authorization_code/failed_authorization.twig',
-                ['response' => $request->getParams()]
-            );
+
+            $retData = ['response' => $request->getParams()];
+
+            return $this->render($response, '/client/authorization_code/failed_authorization.twig', $retData);
         }
 
         // verify the "state" parameter matches this user's session (this is like CSRF - very important!!)
         if ($request->getParam('state') !== session_id()) {
-            return $this->render(
-                $response,
-                '/client/authorization_code/failed_authorization.twig',
-                ['response' => ['error_description' => 'Your session has expired.  Please try again.']]
-            );
+
+            $retData = ['response' => ['error_description' => 'Your session has expired.  Please try again.']];
+
+            return $this->render($response, '/client/authorization_code/failed_authorization.twig', $retData);
         }
 
         $path = $this->container->router->pathFor('requestToken.request_token_with_authcode');

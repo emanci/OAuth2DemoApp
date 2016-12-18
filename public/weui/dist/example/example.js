@@ -283,7 +283,7 @@ $(function () {
 
     function init(){
         preload();
-        fastClick();
+        ();
         androidInputBugFix();
         setJSAPI();
         setPageManager();
