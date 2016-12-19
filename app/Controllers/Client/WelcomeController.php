@@ -9,6 +9,7 @@ namespace App\Controllers\Client;
 
 use App\Controllers\BaseController;
 use App\OAuth2\Client;
+use App\OAuth2\GrantTypes\GrantManager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -24,21 +25,11 @@ class WelcomeController extends BaseController
     public function index(Request $request, Response $response, $args)
     {
         // http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html
-        $authorizeClient = new Client();
-        $authorizeUrl = $authorizeClient->authorize();
-        $refreshAuthorizeUrl = $authorizeClient->refreshAuthorize();
-        $implicitAuthorizeUrl = $authorizeClient->implicitAuthorize();
-        $userCredentialsUrl = $authorizeClient->userCredentials();
-        $openidConnect = $authorizeClient->openidConnect();
+        $grantManager = new GrantManager();
+        $url = $grantManager->createURL(
+            ['authorization_code', 'refresh_token', 'implicit', 'user_credentials', 'openid_connect']
+        );
 
-        $data = [
-            'authorize_url'          => $authorizeUrl,
-            'refresh_authorize_url'  => $refreshAuthorizeUrl,
-            'implicit_authorize_url' => $implicitAuthorizeUrl,
-            'user_credentials_url'   => $userCredentialsUrl,
-            'openid_connect'         => $openidConnect,
-        ];
-
-        $this->render($response, '/client/index.twig', $data);
+        $this->render($response, '/client/index.twig', $url);
     }
 }

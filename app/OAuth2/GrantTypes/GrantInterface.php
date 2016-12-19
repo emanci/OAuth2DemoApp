@@ -9,5 +9,8 @@ namespace App\OAuth2\GrantTypes;
 
 interface GrantInterface
 {
+    /**
+     * @return mixed
+     */
     public function url();
 }
