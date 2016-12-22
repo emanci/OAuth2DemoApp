@@ -5,7 +5,7 @@
  * Date: 2016/11/22.
  */
 
-namespace app\Controllers\Client;
+namespace App\Controllers\Client;
 
 use App\Controllers\BaseController;
 use App\OAuth2\Client;
