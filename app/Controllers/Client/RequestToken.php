@@ -54,6 +54,7 @@ class RequestToken extends BaseController
         }
 
         $http = new Client(config('demo_app.http_options'));
+        
         $tokenResponse = $http->request('POST', $endpoint, ['form_params' => $data]);
         $json = json_decode($tokenResponse->getBody()->getContents(), true);
 

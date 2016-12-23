@@ -25,7 +25,7 @@ class AuthorizationCodeController extends BaseController
     public function receive(Request $request, Response $response, $args)
     {
         if (!$code = $request->getParam('code')) {
-
+            
             $retData = ['response' => $request->getParams()];
 
             return $this->render($response, '/client/authorization_code/failed_authorization.twig', $retData);

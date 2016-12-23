@@ -32,6 +32,7 @@ class ImplicitTokenController extends BaseController
 
         // nothing to do - implicit tokens are in the URL Fragment, so it must be done by the browser
         $requestResourceRoute = $this->container->router->pathFor('requestResource.request_resource');
+        
         $data = ['request_resource_route' => $requestResourceRoute];
 
         return $this->render($response, 'client/token/show_implicit_token.twig', $data);

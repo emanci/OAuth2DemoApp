@@ -55,8 +55,7 @@ class AuthorizeController extends ServerController
             $params['nonce'] = $nonce;
         }
 
-        $query = http_build_query($params);
-        $authorizePost = $path.'?'.$query;
+        $authorizePost = $path.'?'.http_build_query($params);
 
         $data = [
             'client_id'      => $clientId,
