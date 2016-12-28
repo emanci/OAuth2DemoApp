@@ -68,63 +68,127 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>OAuth2 Demo App</title>
     <link rel="stylesheet" href="/weui/dist/style/weui.min.css"/>
-    <link rel="stylesheet" href="/css/oauth2.css"/>
-    {#<link rel="stylesheet" href="/css/example.css"/>#}
-    <script type="text/javascript" src="/weui/dist/example/zepto.min.js"></script>
-    <script type="text/javascript" src="/weui/dist/example/weui.min.js"></script>
-    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    {#<script type="text/javascript" src="/js/oauth2.js"></script>#}
-    <script type="text/javascript" src="/js/demo_app.js"></script>
-    {#<script type="text/javascript" src="/weui/dist/example/example.js"></script>#}
+    <!-- <link rel="stylesheet" href="/css/oauth22.css"/> -->
+    <link rel="stylesheet" href="/css/example.css"/>
 </head>
 <body ontouchstart>
+
 <div class="container" id="container"></div>
+
+<!-- home page -->
 <script type="text/html" id="tpl_home">
-    <div class="page">
-        <div class="page__hd">
-            <h1 class="page__title">OAuth2 Demo App</h1>
-            <p class="page__desc">This is an application that demos some of the basic OAuth2.0 Workflows.</p>
+<div class="page">
+    <div class="page__hd">
+        <h1 class="page__title">OAuth2 Demo App</h1>
+        <p class="page__desc">This is an application that demos some of the basic OAuth2.0 Workflows.</p>
+    </div>
+    <div class="weui-grids">
+        <a href="#authorization_code" class="weui-grid js_item">
+            <div class="weui-grid__icon">
+                <img src="/images/icon_nav_button.png" alt="">
+            </div>
+            <p class="weui-grid__label">Authorization Code</p>
+        </a>
+        <a href="javascript:;" class="weui-grid js_item">
+            <div class="weui-grid__icon">
+                <img src="/images/icon_nav_button.png" alt="">
+            </div>
+            <p class="weui-grid__label">Refresh Token</p>
+        </a>
+        <a href="javascript:;" class="weui-grid js_item">
+            <div class="weui-grid__icon">
+                <img src="/images/icon_nav_button.png" alt="">
+            </div>
+            <p class="weui-grid__label">Implicit</p>
+        </a>
+        <a href="javascript:;" class="weui-grid js_item">
+            <div class="weui-grid__icon">
+                <img src="/images/icon_nav_button.png" alt="">
+            </div>
+            <p class="weui-grid__label">User Credentials</p>
+        </a>
+        <a href="javascript:;" class="weui-grid js_item">
+            <div class="weui-grid__icon">
+                <img src="/images/icon_nav_button.png" alt="">
+            </div>
+            <p class="weui-grid__label">OpenID Connect</p>
+        </a>
+    </div>
+</div>
+</script>
+
+<!-- authorization_code page -->
+<script type="text/html" id="tpl_authorization_code">
+<div class="page">
+    <div class="weui-msg">
+        <div class="weui-msg__text-area">
+            <p class="weui-msg__desc">The <code>Authorization Code</code> grant type is the most common workflow for OAuth2.0. Clicking the "Authorize" button below will send you to an OAuth2.0 Server to authorize</p>
         </div>
-        <div class="weui-grids">
-            <a href="javascript:;" class="weui-grid js_grid" data-id="authorization_code">
-                <div class="weui-grid__icon">
-                    <img src="/images/icon_nav_button.png" alt="">
-                </div>
-                <p class="weui-grid__label">Authorization Code</p>
-            </a>
-            <a href="javascript:;" class="weui-grid js_grid" data-id="refresh_token">
-                <div class="weui-grid__icon">
-                    <img src="/images/icon_nav_button.png" alt="">
-                </div>
-                <p class="weui-grid__label">Refresh Token</p>
-            </a>
-            <a href="javascript:;" class="weui-grid js_grid" data-id="implicit">
-                <div class="weui-grid__icon">
-                    <img src="/images/icon_nav_button.png" alt="">
-                </div>
-                <p class="weui-grid__label">Implicit</p>
-            </a>
-            <a href="javascript:;" class="weui-grid js_grid" data-id="user_credentials">
-                <div class="weui-grid__icon">
-                    <img src="/images/icon_nav_button.png" alt="">
-                </div>
-                <p class="weui-grid__label">User Credentials</p>
-            </a>
-            <a href="javascript:;" class="weui-grid js_grid" data-id="openid_connect">
-                <div class="weui-grid__icon">
-                    <img src="/images/icon_nav_button.png" alt="">
-                </div>
-                <p class="weui-grid__label">OpenID Connect</p>
-            </a>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <a href="{{authorization_code_url}}" class="weui-btn weui-btn_primary">Authorize</a>
+            </p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__text">Copyright &copy; 2016 emanci.me</p>
+            </div>
         </div>
     </div>
-</script>
+</div>
 <script type="text/javascript">
-    $(function () {
-        $('.js_grid').on('click', function () {
-            var id = $(this).data('id');
-            window.pageManager.go(id);
-        });
+    $(function(){
+        console.log('oooooooo-authorization_code');
     });
 </script>
+</script>
+
+<!-- refresh_token page -->
+<script type="text/html" id="tpl_refresh_token">
+<div class="page">
+</div>
+<script type="text/javascript">
+    $(function(){
+        console.log('oooooooo');
+    });
+</script>
+</script>
+
+<!-- implicit page -->
+<script type="text/html" id="tpl_implicit">
+<div class="page">
+</div>
+<script type="text/javascript">
+    $(function(){
+        console.log('oooooooo');
+    });
+</script>
+</script>
+
+
+<!-- user_credentials page -->
+<script type="text/html" id="tpl_user_credentials">
+<div class="page">
+</div>
+<script type="text/javascript">
+    $(function(){
+        console.log('oooooooo');
+    });
+</script>
+</script>
+
+<!-- openid_connect page -->
+<script type="text/html" id="tpl_openid_connect">
+<div class="page">
+</div>
+<script type="text/javascript">
+    $(function(){
+        console.log('oooooooo');
+    });
+</script>
+</script>
+<script type="text/javascript" src="/weui/dist/example/zepto.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="/weui/dist/example/weui.min.js"></script>
+<script type="text/javascript" src="/js/demo_app.js"></script>
 </body>

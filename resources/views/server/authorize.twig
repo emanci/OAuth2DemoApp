@@ -1,39 +1,31 @@
-{% extends "server/base.twig" %}
-
-{% block content %}
-    <h3>
-        Welcome to the OAuth2.0 Server!
-    </h3>
-    <p>
-        You have been sent here by <strong>{{ client_id }}</strong>. {{ client_id }} would like to access the following
-        data:
-    </p>
-    <ul>
-        <li>friends</li>
-        <li>memories</li>
-        <li>hopes, dreams, passions, etc.</li>
-        <li>sock drawer</li>
-    </ul>
-    <p>It will use this data to:</p>
-    <ul>
-        <li>integrate with friends</li>
-        <li>make your life better</li>
-        <li>miscellaneous nefarious purposes</li>
-    </ul>
-    <p>Click the button below to complete the authorize request and grant an
-        <code>{{ response_type == 'code' ? 'Authorization Code' : 'Access Token' }}</code> to {{ client_id }}.
-    <ul class="authorize_options">
-        <li>
-            <form action="{{ authorize_post }}" method="post">
-                <input type="submit" class="button authorize" value="Yes, I Authorize This Request"/>
-                <input type="hidden" name="authorize" value="1"/>
-            </form>
-        </li>
-        <li class="cancel">
-            <form id="cancel" action="{{ authorize_post }}" method="post">
-                <a href="#" onclick="document.getElementById('cancel').submit()">cancel</a>
-                <input type="hidden" name="authorize" value="0"/>
-            </form>
-        </li>
-    </ul>
-{% endblock %}
+ <!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>OAuth2 Demo App</title>
+    <link rel="stylesheet" href="/weui/dist/style/weui.min.css"/>
+    <!-- <link rel="stylesheet" href="/css/oauth22.css"/> -->
+    <link rel="stylesheet" href="/css/example.css"/>
+</head>
+<body>
+	<div class="grant">
+	<div class="weui-msg authorization_code">
+	    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+	    <div class="weui-msg__text-area">
+	        <h2 class="weui-msg__title">Welcome to the OAuth2.0 Server</h2>
+	        <p class="weui-msg__desc">You have been sent here by demoapp. demoapp would like to access the following data:</p>
+	        <p class="weui-msg__desc"><input id="weuiAgree" type="checkbox" class="weui-agree__checkbox" checked="checked" disabled="disabled"> friends, memories</p>
+	    </div>
+	    <div class="weui-msg__opr-area">
+	        <p class="weui-btn-area">
+	            <a href="{{authorize_post}}" class="weui-btn weui-btn_primary">Yes, I Authorize This Request</a>
+	            <a href="javascript:history.back();" class="weui-btn weui-btn_default">Cancel</a>
+	        </p>
+	    </div>
+	    <!-- <div class="page__ft">
+	        <a href="javascript:home()"><img src="/images/icon_footer.png" /></a>
+	    </div> -->
+	</div>
+	</div>
+</body>
