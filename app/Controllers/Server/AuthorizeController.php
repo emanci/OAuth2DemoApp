@@ -87,7 +87,7 @@ class AuthorizeController extends ServerController
         $statusCode = $oauthResponse->getStatusCode();
         if ($statusCode != 302) {
             $errors = json_decode($oauthResponse->getContent(), true);
-
+            
             return $response->withJson($errors);
         }
 

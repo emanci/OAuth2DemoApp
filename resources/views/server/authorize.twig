@@ -1,27 +1,31 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-cmn-Hans">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>OAuth2 Demo App</title>
     <link rel="stylesheet" href="/weui/dist/style/weui.min.css"/>
-    <!-- <link rel="stylesheet" href="/css/oauth22.css"/> -->
     <link rel="stylesheet" href="/css/example.css"/>
+    <script type="text/javascript" src="/weui/dist/example/zepto.min.js"></script>
 </head>
 <body>
 	<div class="grant">
 	<div class="weui-msg authorization_code">
-	    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+	    <!-- <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div> -->
 	    <div class="weui-msg__text-area">
 	        <h2 class="weui-msg__title">Welcome to the OAuth2.0 Server</h2>
 	        <p class="weui-msg__desc">You have been sent here by demoapp. demoapp would like to access the following data:</p>
 	        <p class="weui-msg__desc"><input id="weuiAgree" type="checkbox" class="weui-agree__checkbox" checked="checked" disabled="disabled"> friends, memories</p>
 	    </div>
 	    <div class="weui-msg__opr-area">
-	        <p class="weui-btn-area">
-	            <a href="{{authorize_post}}" class="weui-btn weui-btn_primary">Yes, I Authorize This Request</a>
-	            <a href="javascript:history.back();" class="weui-btn weui-btn_default">Cancel</a>
-	        </p>
+	        <form class="weui-btn-area" action="{{ authorize_post }}" method="post">
+                <input type="submit" class="weui-btn weui-btn_primary" value="Yes, I Authorize This Request"/>
+                <input type="hidden" name="authorize" value="1"/>
+	        </form>
+	        <form id="cancel" class="weui-btn-area" action="{{ authorize_post }}" method="post">
+	        	<a href="#" class="weui-btn weui-btn_default" onclick="document.getElementById('cancel').submit()">Cancel</a>
+                <input type="hidden" name="authorize" value="0"/>
+	        </form>
 	    </div>
 	    <!-- <div class="page__ft">
 	        <a href="javascript:home()"><img src="/images/icon_footer.png" /></a>
@@ -29,3 +33,4 @@
 	</div>
 	</div>
 </body>
+</html>

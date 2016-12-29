@@ -1,27 +1,34 @@
-{% extends "client/base.twig" %}
-
-{% block content %}
-    <h3>Resource Request Complete!</h3>
-    {% if response.friends is defined %}
-        <p>
-            You have successfully called the APIs with your Access Token. Here are your friends:
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>OAuth2 Demo App</title>
+    <link rel="stylesheet" href="/weui/dist/style/weui.min.css"/>
+    <link rel="stylesheet" href="/css/example.css"/>
+    <script type="text/javascript" src="/weui/dist/example/zepto.min.js"></script>
+</head>
+<body>
+<div class="weui-msg">
+    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+    <div class="weui-msg__text-area">
+        <h2 class="weui-msg__title">Resource Request Complete</h2>
+        <p class="weui-msg__desc">Here is the full JSON response: </p>
+        <p class="weui-msg__desc">
+            <ul>
+                {% for friend in response.friends %}
+                    <li>{{ friend }}</li>
+                {% endfor %}
+            </ul>
         </p>
+    </div>
+    <div class="weui-msg__opr-area">
+        <p class="weui-btn-area">
+            <a href="javascript:history.back();" class="weui-btn weui-btn_primary">Back</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>
 
-        <ul>
-            {% for friend in response.friends %}
-                <li>{{ friend }}</li>
-            {% endfor %}
-        </ul>
 
-        <p>Here is the full JSON response: </p>
-
-        <pre>{{ response|json_stringify }}</pre>
-    {% else %}
-        <h4>Response:</h4>
-        {% include 'client/_error.twig' %}
-    {% endif %}
-
-    <pre><code>  The API call can be seen at <a href="{{ resource_uri }}" target="_blank">{{ resource_uri }}</a></code></pre>
-
-    {#<a href="{{ path('homepage') }}">back</a>#}
-{% endblock %}

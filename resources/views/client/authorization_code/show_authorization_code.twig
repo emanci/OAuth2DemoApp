@@ -1,23 +1,27 @@
-{% extends "client/base.twig" %}
-
-{% block content %}
-    <h3>Authorization Code Retrieved!</h3>
-    <p>We have been given an <strong>Authorization Code</strong> from the OAuth2.0 Server:</p>
-    <pre><code>  Authorization Code: {{ code }}  </code></pre>
-
-    <p>
-        Now exchange the Authorization Code for an <strong>Access Token</strong>:
-    <p>
-
-        <a class="button" href="{{ request_token_url }}">make a token request</a>
-
-    <div class="help">
-        <em>usually this is done behind the scenes, but we're going step-by-step so you don't miss anything!</em>
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>OAuth2 Demo App</title>
+    <link rel="stylesheet" href="/weui/dist/style/weui.min.css"/>
+    <link rel="stylesheet" href="/css/example.css"/>
+    <script type="text/javascript" src="/weui/dist/example/zepto.min.js"></script>
+</head>
+<body>
+<div class="weui-msg">
+    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+    <div class="weui-msg__text-area">
+        <h2 class="weui-msg__title">Authorization Code Retrieved</h2>
+        <p class="weui-msg__desc">Authorization Code: </p>
+        <p class="weui-msg__desc">{{ code }}</p>
     </div>
-
-    {#{% if app.request.get("id_token") %}
-        {% include 'client/_id_token.twig' with { id_token: app.request.get("id_token") } %}
-    {% endif %}#}
-
-    <a href="/oauth2/">back</a>
-{% endblock %}
+    <div class="weui-msg__opr-area">
+        <p class="weui-btn-area">
+            <a href="{{ request_token_url }}" class="weui-btn weui-btn_primary">Make a token request</a>
+            <a href="javascript:history.back();" class="weui-btn weui-btn_default">Back</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>

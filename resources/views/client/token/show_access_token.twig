@@ -1,24 +1,28 @@
-{% extends "client/base.twig" %}
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>OAuth2 Demo App</title>
+    <link rel="stylesheet" href="/weui/dist/style/weui.min.css"/>
+    <link rel="stylesheet" href="/css/example.css"/>
+    <script type="text/javascript" src="/weui/dist/example/zepto.min.js"></script>
+</head>
+<body>
+<div class="weui-msg">
+    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+    <div class="weui-msg__text-area">
+        <h2 class="weui-msg__title">Token Retrieved</h2>
+        <p class="weui-msg__desc">Access Token: </p>
+        <p class="weui-msg__desc">{{ response.access_token }}</p>
+    </div>
+    <div class="weui-msg__opr-area">
+        <p class="weui-btn-area">
+            <a href="{{ request_resource_url }}" class="weui-btn weui-btn_primary">Make a resource request</a>
+            <a href="javascript:history.back();" class="weui-btn weui-btn_default">Back</a>
+        </p>
+    </div>
+</div>
+</body>
+</html>
 
-{% block content %}
-    <h3>Token Retrieved!</h3>
-    <pre><code>  Access Token: {{ response.access_token }}  </code></pre>
-
-    {% if response.expires_in %}
-        <div class="help"><em>Expires in {{ response.expires_in }} seconds</em></div>
-    {% endif %}
-
-    <p>
-        Now use this token to make a request to the OAuth2.0 Server's APIs:
-    </p>
-
-    <a class="button" href="{{ request_resource_url }}">make a resource request</a>
-
-    <div class="help"><em>This token can now be used multiple times to make API requests for this user.</em></div>
-
-    {#{% if response.id_token is defined %}
-        {% include 'client/_id_token.twig' with { id_token: response.id_token } %}
-    {% endif %}#}
-
-    {#<a href="{{ path('homepage') }}">back</a>#}
-{% endblock %}

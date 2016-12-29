@@ -39,3 +39,21 @@ ul {
     color: #888;
     font-size: 14px;
 }
+
+.page__ft {
+    padding-top:260px;
+    padding-bottom:10px;
+    text-align:center;
+}
+
+.page__ft img {
+    height:19px;
+}
+
+.grant {
+    display: none;
+}
+
+.grant.js_show {
+
+}
