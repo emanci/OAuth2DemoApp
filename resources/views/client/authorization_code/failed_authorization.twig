@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>OAuth2 Demo App</title>
-    <link rel="stylesheet" href="/weui/dist/style/weui.min.css"/>
-    <link rel="stylesheet" href="/css/example.css"/>
-    <script type="text/javascript" src="/weui/dist/example/zepto.min.js"></script>
-</head>
-<body>
-<div class="weui-msg">
-    <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
-    <div class="weui-msg__text-area">
-        <h2 class="weui-msg__title">Authorization Failed</h2>
-        <p class="weui-msg__desc">{{ response.error_description }}</p>
-    </div>
-    <div class="weui-msg__opr-area">
-        <p class="weui-btn-area">
-            <a href="javascript:history.back();" class="weui-btn weui-btn_primary">Back</a>
-        </p>
-    </div>
-</div>
-</body>
-</html>
+{% extends "client/base.twig" %}
+
+{% block content %}
+    <div class="weui-msg">
+	    <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+	    <div class="weui-msg__text-area">
+	        <h2 class="weui-msg__title">Authorization Failed</h2>
+	        <p class="weui-msg__desc">{{ response.error_description }}</p>
+	    </div>
+	    <div class="weui-msg__opr-area">
+	        <p class="weui-btn-area">
+	            <a href="javascript:history.back();" class="weui-btn weui-btn_primary">Back</a>
+	        </p>
+	    </div>
+	</div>
+    {#<a href="{{ path('homepage') }}">back</a>#}
+{% endblock %}

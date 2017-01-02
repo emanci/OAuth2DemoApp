@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>OAuth2 Demo App</title>
-    <link rel="stylesheet" href="/weui/dist/style/weui.min.css"/>
-    <link rel="stylesheet" href="/css/example.css"/>
-    <script type="text/javascript" src="/weui/dist/example/zepto.min.js"></script>
-</head>
-<body>
-	<div class="grant">
+{% extends "client/base.twig" %}
+
+{% block content %}
+    <div class="grant">
 	<div class="weui-msg authorization_code">
 	    <!-- <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div> -->
 	    <div class="weui-msg__text-area">
@@ -32,5 +24,4 @@
 	    </div> -->
 	</div>
 	</div>
-</body>
-</html>
+{% endblock %}
