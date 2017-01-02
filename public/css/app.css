@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
     height: 100%;
     -webkit-tap-highlight-color: transparent
 }
@@ -11,7 +12,8 @@ ul {
     list-style: none
 }
 
-.page, body {
+.page,
+body {
     background-color: #f8f8f8
 }
 
@@ -23,7 +25,8 @@ ul {
     overflow: hidden
 }
 
-.container, .page {
+.container,
+.page {
     position: absolute;
     top: 0;
     right: 0;
@@ -68,15 +71,16 @@ ul {
 }
 
 .page__title {
-    text-align: left;
-    font-size: 20px;
-    font-weight: 400
+    text-align: center;
+    font-size: 34px;
+    color: #3cc51f;
+    font-weight: 400;
+    margin: 0 15%
 }
 
 .page__desc {
-    margin-top: 5px;
+    text-align: center;
     color: #888;
-    text-align: left;
     font-size: 14px
 }
 
@@ -88,7 +92,7 @@ ul {
     vertical-align: middle
 }
 
-.page.home .page__title {
+.page.home {
     font-size: 0;
     margin-bottom: 15px
 }
@@ -150,7 +154,8 @@ ul {
     margin-top: 0
 }
 
-.page.home .weui-cells:after, .page.home .weui-cells:before {
+.page.home .weui-cells:after,
+.page.home .weui-cells:before {
     display: none
 }
 
@@ -174,11 +179,13 @@ ul {
     width: 60%
 }
 
-.page.cell .page__bd, .page.form .page__bd {
+.page.cell .page__bd,
+.page.form .page__bd {
     padding-bottom: 30px
 }
 
-.page.actionsheet, .page.dialog {
+.page.actionsheet,
+.page.dialog {
     background-color: #fff
 }
 
@@ -186,7 +193,10 @@ ul {
     padding: 0 15px
 }
 
-.page.msg, .page.msg_success, .page.msg_warn, .page.toast {
+.page.msg,
+.page.msg_success,
+.page.msg_warn,
+.page.toast {
     background-color: #fff
 }
 
@@ -426,7 +436,9 @@ ul {
     color: #666
 }
 
-.page.actionsheet, .page.gallery, .page.picker {
+.page.actionsheet,
+.page.gallery,
+.page.picker {
     overflow: hidden
 }
 
