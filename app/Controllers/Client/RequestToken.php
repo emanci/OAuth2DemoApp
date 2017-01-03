@@ -144,13 +144,13 @@ class RequestToken extends BaseController
         $password = $request->getParam('password');
 
         // exchange user credentials for access token
-        $query = array(
+        $query = [
             'grant_type'    => 'password',
             'client_id'     => config('demo_app.client_id'),
             'client_secret' => config('demo_app.client_secret'),
             'username'      => $username,
             'password'      => $password,
-        );
+        ];
 
         $endpoint = config('demo_app.token_route');
         if (0 !== strpos($endpoint, 'http')) {
@@ -164,9 +164,10 @@ class RequestToken extends BaseController
 
         if (isset($json['access_token'])) {
             $requestResourceRoute = $this->container->router->pathFor('requestResource.request_resource');
-            $requestResourceUrl = $requestResourceRoute.'?token='.$json['access_token'];
-
-            $data = ['response' => $json, 'request_resource_url' => $requestResourceUrl];
+            $data = [
+                'response' => $json,
+                'request_resource_url' => $requestResourceRoute.'?token='.$json['access_token']
+            ];
 
             return $this->render($response, 'client/token/show_access_token.twig', $data);
         }
