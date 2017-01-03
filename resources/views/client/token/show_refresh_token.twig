@@ -1,16 +1,20 @@
 {% extends "client/base.twig" %}
 
 {% block content %}
-    <h3>Token Retrieved!</h3>
-    <p>
-        But let's pretend this access token has expired. Luckily, it came with a refresh token!
-    </p>
-    <pre>
-        <code>  Refresh Token: {{ response.refresh_token }}  </code>
-    </pre>
-    <a class="button" href="{{ request_refresh_token_url }}">renew your access token</a>
-    <div class="help">
-        <em>The refresh token can be used to get a new access token after the access token hasexpired.</em>
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">Token Retrieved</h2>
+            <p class="weui-msg__desc">But let's pretend this access token has expired. Luckily, it came with a refresh token
+            </p>
+            <p class="weui-msg__desc">Refresh Token</p>
+            <p class="weui-msg__desc">{{ response.refresh_token }}</p>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <a href="{{ request_refresh_token_url }}" class="weui-btn weui-btn_primary">Renew your access token</a>
+                <a href="javascript:history.back();" class="weui-btn weui-btn_default">Back</a>
+            </p>
+        </div>
     </div>
-    <a href="/oauth2/">back</a>
 {% endblock %}

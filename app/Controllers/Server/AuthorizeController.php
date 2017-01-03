@@ -30,7 +30,7 @@ class AuthorizeController extends ServerController
 
             $errors = json_decode($server->getResponse()->getContent(), true);
 
-            return $response->withJson($errors);
+            return $this->render($response, '/server/error.twig', ['response' => $errors]);
         }
 
         $path = $this->container->get('router')->pathFor('authorize.authorize_post');

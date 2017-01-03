@@ -37,13 +37,14 @@ class RequestToken extends BaseController
             : $receiveAuthorizationCodeRoute;
 
         $clientId = $showRefreshToken ? 'demoapp2' : config('demo_app.client_id');
+        $clientSecret = $showRefreshToken ? 'demopass2' : config('demo_app.client_secret');
 
         // exchange authorization code for access token
         $data = [
             'grant_type'    => 'authorization_code',
             'code'          => $code,
             'client_id'     => $clientId,
-            'client_secret' => config('demo_app.client_secret'),
+            'client_secret' => $clientSecret,
             'redirect_uri'  => 'http://local.oauth2.com'.$authorizeRedirect,
         ];
 
@@ -96,7 +97,7 @@ class RequestToken extends BaseController
         $query = array(
             'grant_type'    => 'refresh_token',
             'client_id'     => 'demoapp2',
-            'client_secret' => config('demo_app.client_secret'),
+            'client_secret' => 'demopass2',
             'refresh_token' => $refreshToken,
         );
 
@@ -113,12 +114,13 @@ class RequestToken extends BaseController
         $tokenResponse = $http->request('POST', $endpoint, ['form_params' => $query]);
         $json = json_decode($tokenResponse->getBody()->getContents(), true);
 
-        $requestResourceRoute = $this->container->router->pathFor('requestResource.request_resource');
-        $requestResourceUrl = $requestResourceRoute.'?token='.$json['access_token'];
-
-        $data = ['response' => $json, 'request_resource_url' => $requestResourceUrl];
-
         if (isset($json['access_token'])) {
+            $requestResourceRoute = $this->container->router->pathFor('requestResource.request_resource');
+            $data = [
+                'response' => $json,
+                'request_resource_url' => $requestResourceRoute.'?token='.$json['access_token']
+            ];
+
             return $this->render($response, 'client/token/show_access_token.twig', $data);
         }
 

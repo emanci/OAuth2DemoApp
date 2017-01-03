@@ -16,13 +16,13 @@
                 </div>
                 <p class="weui-grid__label">Authorization Code</p>
             </a>
-            <a href="javascript:;" class="weui-grid js_item">
+            <a href="#refresh_token" class="weui-grid js_item">
                 <div class="weui-grid__icon">
                     <img src="/images/icon_nav_button.png" alt="">
                 </div>
                 <p class="weui-grid__label">Refresh Token</p>
             </a>
-            <a href="javascript:;" class="weui-grid js_item">
+            <a href="#implicit" class="weui-grid js_item">
                 <div class="weui-grid__icon">
                     <img src="/images/icon_nav_button.png" alt="">
                 </div>
@@ -41,9 +41,16 @@
                 <p class="weui-grid__label">OpenID Connect</p>
             </a>
         </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__text">Copyright &copy; 2016 emanci.me</p>
+            </div>
+        </div>
     </div>
 </script>
 
 {% include 'client/grant_types/_authorization_code.twig' %}
+{% include 'client/grant_types/_refresh_token.twig' %}
+{% include 'client/grant_types/_implicit.twig' %}
 
 {% endblock %}

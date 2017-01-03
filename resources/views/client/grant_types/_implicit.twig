@@ -1,4 +1,22 @@
 <script type="text/html" id="tpl_implicit">
     <div class="page">
+    	<div class="weui-msg">
+            <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+            <div class="weui-msg__text-area">
+                <h2 class="weui-msg__title">Implicit Page</h2>
+                <p class="weui-msg__desc">The <code>Implicit</code> grant type is very similar to the<code>Authorization Code</code> grant type,except that the<code>Access Token</code> is returned as part of the URL fragment instead of an API request to the OAuth2.0 Server. Clicking the "Authorize" button below will send you to an OAuth2.0 Server to authorize
+                </p>
+            </div>
+            <div class="weui-msg__opr-area">
+                <p class="weui-btn-area">
+                    <a href="{{implicit_url}}" class="weui-btn weui-btn_primary">Authorize</a>
+                </p>
+            </div>
+            <div class="weui-msg__extra-area">
+                <div class="weui-footer">
+                    <p class="weui-footer__text">Copyright &copy; 2016 emanci.me</p>
+                </div>
+            </div>
+        </div>
     </div>
 </script>
