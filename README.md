@@ -1,4 +1,5 @@
 ## OAuth2DemoApp
+#### An OAuth2 demo application
 
 #### This is the demo app homepage:
 ![image](https://github.com/emanci/OAuth2DemoApp/blob/master/doc/screenshots/home.png?raw=true)
