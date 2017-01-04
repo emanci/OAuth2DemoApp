@@ -36,7 +36,7 @@ class ResourceController extends ServerController
         // return a fake API response - not that exciting
         // @TODO return something more valuable, like the name of the logged in user
         $apiResponse = [
-            'friends' => ['john', 'matt', 'jane'],
+            'friends' => ['fuck', 'reply', 'mock'],
         ];
 
         return $response->withJson($apiResponse);
