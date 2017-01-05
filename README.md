@@ -15,5 +15,3 @@
 
 #### The error page:
 <img src="https://github.com/emanci/OAuth2DemoApp/blob/master/doc/screenshots/error.png?raw=true" width = "350" alt="hoempage" align=center />
-
-
