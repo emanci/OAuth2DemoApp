@@ -17,6 +17,7 @@
   "require": {
     "php": ">=5.6.0",
     "slim/slim": "^3.0",
+    "php-di/slim-bridge": "*",
     "slim/twig-view": "^2.1",
     "slim/csrf": "^0.6.0",
     "slim/flash": "^0.1.0",
