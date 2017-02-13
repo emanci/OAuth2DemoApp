@@ -74,3 +74,7 @@ $app->group(
         $app->get('/access', 'App\Controllers\Server\ResourceController:resource')->setName('resource.access');
     }
 );
+
+// di test
+//$app->get('/user/profile/{id}', 'App\Controllers\UserController:profile')->setName('user.profile');
+//$app->get('/user/profile/{id}', [\App\Controllers\UserController::class, 'profile']);
